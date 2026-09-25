@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="noindex, nofollow, noarchive" name="robots"/>
+<meta content="no-referrer" name="referrer"/>
+<meta content="Anonymous supplementary material for EgoHumanoid-V2: Zero-Shot Transfer of Whole-Body Manipulation Skills from Human Egocentric Data. ICLR 2027 submission." name="description"/>
+<title>EgoHumanoid-V2 · Anonymous Supplementary Material</title>
+<link href="favicon-32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="favicon.svg?v=robot" rel="icon" type="image/svg+xml"/>
+<link href="https://egohumanoid-v2-iclr2027.github.io/" rel="canonical"/>
+<link as="font" crossorigin="" href="assets/fonts/manrope.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="assets/fonts/dm-sans.woff2" rel="preload" type="font/woff2"/>
+<link as="image" fetchpriority="high" href="assets/images/deployment-fridge.jpg" rel="preload"/>
+<link href="styles.css" rel="stylesheet"/>
+<script defer="" src="app.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#overview">Skip to research</a>
+<div aria-hidden="true" class="reading-progress"></div>
+<header class="masthead">
+<a class="wordmark" href="#introduction"><img alt="" aria-hidden="true" class="brand-icon" height="32" src="favicon.svg" width="32"/>EgoHumanoid<span>–V2</span></a>
+<div class="header-links"><span class="review-mark">ICLR 2027 · Anonymous</span><a class="button small" href="assets/documents/paper.pdf" rel="noopener" target="_blank"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v6h6M8 13h8M8 17h5"></path></svg> Paper</a><a class="button primary small" href="#resources">Videos <span aria-hidden="true">↓</span></a></div>
+</header>
+<nav aria-label="On this page" class="section-nav">
+<button aria-controls="section-links" aria-expanded="false" class="nav-toggle">Sections <span aria-hidden="true">☰</span></button>
+<div class="section-links" id="section-links">
+<a aria-current="location" href="#introduction">Introduction</a>
+<a href="#overview">Highlights</a>
+<a href="#demonstrations">Tasks</a>
+<a href="#results">Action alignment</a>
+<a href="#visual-alignment">Visual alignment</a>
+<a href="#online-ik">Baselines</a>
+<a href="#data-collection">Data collection</a>
+<a href="#resources">Resources</a>
+</div>
+</nav>
+<main id="top">
+<section aria-labelledby="paper-title" class="hero" id="introduction">
+<div class="hero-background"><video aria-label="Refrigerator opening research preview" data-hero="" data-src="assets/videos/deployment-fridge.mp4" loop="" muted="" playsinline="" poster="assets/images/deployment-fridge.jpg" preload="metadata"></video></div>
+<div class="wrap hero-content">
+<p class="publication-line">Anonymous authors · ICLR 2027 submission</p>
+<h1 id="paper-title"><span>EgoHumanoid-V2:</span> Zero-Shot Transfer of Whole-Body Manipulation Skills from <span>Human Egocentric Data</span></h1>
+<p class="hero-description">Human demonstrations. Coordinated humanoid skills.<br/>Zero target-task robot demonstrations.</p>
+<div class="hero-actions"><a class="button hero-primary" href="assets/documents/paper.pdf" rel="noopener" target="_blank"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v6h6M8 13h8M8 17h5"></path></svg> Read paper</a><a class="button hero-secondary" href="#demonstrations"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m8 5 11 7-11 7z"></path></svg> Explore videos</a></div>
+</div>
+<div class="hero-bottom wrap"><a class="scroll-cue" href="#overview">Explore the research <span aria-hidden="true">↓</span></a><button aria-pressed="false" class="quiet-button" id="preview-toggle"><span aria-hidden="true" class="play-icon">Ⅱ</span><span>Pause previews</span></button></div>
+</section>
+<section aria-labelledby="overview-title" class="section" id="overview"><div class="wrap">
+<div class="section-heading"><span class="section-label">Highlights</span><h2 id="overview-title">Human experience. Humanoid skills.</h2><p>Whole-body coordination transfers from human demonstrations to a real humanoid.</p></div>
+<p class="research-summary">We align human motion with the robot’s controller, then post-train task-specific VLA policies. <strong>Controller-aware action alignment</strong> and <strong>visual alignment</strong> enable zero-shot deployment on Unitree G1.</p>
+<div class="highlight-grid">
+<article class="highlight-card"><strong class="highlight-value">0</strong><h3>Target-task robot demos</h3><p>Task supervision comes from humans.</p></article>
+<article class="highlight-card"><strong class="highlight-value">4</strong><h3>Whole-body skills</h3><p>Coordinated arms, torso, and legs.</p></article>
+<article class="highlight-card"><strong class="highlight-value">52.92<span>%</span></strong><h3>Mean task score</h3><p>200 human demonstrations per task.</p></article>
+</div>
+</div></section>
+<section aria-labelledby="demo-title" class="section section-tint" id="demonstrations"><div class="wrap">
+<div class="section-heading"><span class="section-label">Task showcase</span><h2 id="demo-title">Whole-body skills in the real world.</h2><p>Four tasks. Human-only task supervision. Zero-shot robot deployment.</p></div>
+<div aria-label="Four real-world tasks" class="hero-filmstrip"><a class="hero-film" data-hero-task="laptop" href="#demo-panel"><div class="film-image"><video aria-label="Laptop closing preview" data-hero="" data-src="assets/videos/deployment-laptop.mp4" loop="" muted="" playsinline="" poster="assets/images/deployment-laptop.jpg" preload="none"></video></div><div class="film-caption"><span>Laptop closing</span><span aria-hidden="true">↗</span></div></a>
+<a class="hero-film" data-hero-task="fridge" href="#demo-panel"><div class="film-image"><video aria-label="Refrigerator opening preview" data-hero="" data-src="assets/videos/deployment-fridge.mp4" loop="" muted="" playsinline="" poster="assets/images/deployment-fridge.jpg" preload="none"></video></div><div class="film-caption"><span>Refrigerator opening</span><span aria-hidden="true">↗</span></div></a>
+<a class="hero-film" data-hero-task="curtain" href="#demo-panel"><div class="film-image"><video aria-label="Curtain pulling preview (chair removed)" data-hero="" data-src="assets/videos/deployment-curtain.mp4" loop="" muted="" playsinline="" poster="assets/images/deployment-curtain.jpg" preload="none"></video><span class="film-badge">Edited</span></div><div class="film-caption"><span>Curtain pulling</span><span aria-hidden="true">↗</span></div></a>
+<a class="hero-film" data-hero-task="drawer" href="#demo-panel"><div class="film-image"><video aria-label="Drawer closing preview" data-hero="" data-src="assets/videos/deployment-drawer.mp4" loop="" muted="" playsinline="" poster="assets/images/deployment-drawer.jpg" preload="none"></video></div><div class="film-caption"><span>Drawer closing</span><span aria-hidden="true">↗</span></div></a></div>
+<div class="subsection-heading"><h3>From demonstration to deployment</h3><span>Unitree G1</span></div>
+<div aria-label="Real-world task" class="task-tabs" data-tabs="demo" role="tablist"><button aria-controls="demo-panel" aria-selected="true" data-task="laptop" id="demo-tab-laptop" role="tab">Laptop closing</button><button aria-controls="demo-panel" aria-selected="false" data-task="fridge" id="demo-tab-fridge" role="tab" tabindex="-1">Refrigerator opening</button><button aria-controls="demo-panel" aria-selected="false" data-task="curtain" id="demo-tab-curtain" role="tab" tabindex="-1">Curtain pulling</button><button aria-controls="demo-panel" aria-selected="false" data-task="drawer" id="demo-tab-drawer" role="tab" tabindex="-1">Drawer closing</button></div>
+<div aria-labelledby="demo-tab-laptop" id="demo-panel" role="tabpanel">
+<div class="demo-description"><h3 id="task-heading">Laptop closing</h3><div class="task-score"><strong id="task-score">53.33<span>%</span></strong><span>Task score · 20 trials</span></div></div>
+<div class="demo-videos">
+<figure class="media-card"><figcaption class="video-heading"><span><span aria-hidden="true" class="label-dot human-dot"></span>Human demonstration</span><span class="video-detail">Task supervision</span></figcaption><div class="video-frame"><video aria-label="Human demonstration: Laptop closing" controls="" data-src="assets/videos/human-laptop.mp4" id="human-video" muted="" playsinline="" poster="assets/images/human-laptop.jpg" preload="none"></video></div></figure>
+<figure class="media-card"><figcaption class="video-heading"><span><span aria-hidden="true" class="label-dot"></span>Robot execution</span><span class="execution-meta">Autonomous <span aria-hidden="true">·</span> <span id="playback-speed">1×</span></span></figcaption><div class="video-frame"><video aria-label="Robot execution: Laptop closing" controls="" data-src="assets/videos/deployment-laptop.mp4" id="robot-video" muted="" playsinline="" poster="assets/images/deployment-laptop.jpg" preload="none"></video></div></figure>
+</div>
+<p class="media-note" hidden="" id="curtain-edit-note">Chair digitally removed; occluded areas are reconstructed. <strong>Original</strong> preserves the recording. Both versions anonymize faces.</p>
+<div class="demo-bottom"><div class="demo-view-controls"><button aria-label="Show egocentric view" aria-pressed="false" class="button small view-toggle" id="view-toggle" title="Show egocentric view" type="button"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 7H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM16 10l5-3v10l-5-3"></path></svg></button><button aria-pressed="false" class="button small" hidden="" id="view-original" type="button">Original</button></div><button class="button small" id="play-pair"><span aria-hidden="true">▶</span> Play both</button></div>
+</div>
+</div></section>
+<section aria-labelledby="results-title" class="section" id="results"><div class="wrap">
+<div class="section-heading"><span class="section-label">Results</span><h2 id="results-title">Action Alignment</h2><p class="alignment-overview"><span><strong>H:</strong> Initial controller rollout</span><span><strong>K:</strong> Kinematic reference correction</span><span><strong>D:</strong> Execution-guided refinement</span></p></div>
+<div class="results-grid">
+<figure class="chart-card"><figcaption><h3>Real-world task score</h3><p>Mean across four tasks · higher is better</p></figcaption>
+<div aria-label="Mean task score: H 14.17 percent; H plus K 41.67 percent; H plus K plus selected refinement 52.92 percent." class="bar-chart" role="img">
+<div class="chart-row"><span>H</span><div class="bar-track"><span class="bar bar-baseline" style="--value:14.17"></span></div><strong>14.17%</strong></div>
+<div class="chart-row"><span>H + K</span><div class="bar-track"><span class="bar bar-middle" style="--value:41.67"></span></div><strong>41.67%</strong></div>
+<div class="chart-row full"><span>H + K + D<sub>s</sub></span><div class="bar-track"><span class="bar" style="--value:52.92"></span></div><strong>52.92%</strong></div>
+</div>
+<div aria-hidden="true" class="chart-scale"><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
+</figure>
+<div class="chart-card endpoint-results"><h3>Executed endpoint error</h3><p>Simulation · lower is better</p>
+<div class="metric-pair"><span>Position</span><div><span class="before-value">11.49</span><span class="metric-arrow">→</span><strong>3.69 <small>cm</small></strong></div></div>
+<div class="metric-pair"><span>Palm orientation</span><div><span class="before-value">24.33°</span><span class="metric-arrow">→</span><strong>9.81°</strong></div></div>
+</div>
+</div>
+<details class="disclosure score-table-details"><summary>Task scores <span aria-hidden="true">＋</span></summary><div aria-label="Task score comparison table" class="table-scroll" role="region" tabindex="0"><table aria-label="Real-world task score (%)"><thead><tr><th scope="col">Action alignment</th><th scope="col">Laptop</th><th scope="col">Refrigerator</th><th scope="col">Curtain</th><th scope="col">Drawer</th><th scope="col">Mean</th></tr></thead><tbody><tr><th scope="row">H</th><td>0.00</td><td>0.00</td><td>28.33</td><td>28.33</td><td>14.17</td></tr><tr><th scope="row">H + K</th><td>46.67</td><td>31.67</td><td>51.67</td><td>36.67</td><td>41.67</td></tr><tr class="highlight-row"><th scope="row">H + K + D<sub>s</sub></th><td>53.33</td><td>38.33</td><td>53.33</td><td>66.67</td><td>52.92</td></tr></tbody></table></div></details>
+</div></section>
+<section aria-labelledby="visual-title" class="section section-tint" id="visual-alignment"><div class="wrap">
+<div class="section-heading"><span class="section-label">Method</span><h2 id="visual-title">Visual Alignment</h2></div>
+<div aria-label="Visual alignment pipeline" class="visual-pipeline" role="list">
+<div class="visual-stage" role="listitem"><div class="stage-heading"><span aria-hidden="true" class="stage-symbol">01</span><h3>Human egocentric RGB</h3></div><img alt="Original human first-person observation" class="stage-image" height="310" loading="lazy" src="assets/images/human-view.jpg" width="552"/></div><span aria-hidden="true" class="diagram-arrow">→</span>
+<div class="visual-stage" role="listitem"><div class="stage-heading"><span aria-hidden="true" class="stage-symbol">02</span><h3>Robot-arm rendering</h3></div><img alt="Observation with rendered robot forearms" class="stage-image" height="310" loading="lazy" src="assets/images/aligned-view.jpg" width="552"/></div><span aria-hidden="true" class="diagram-arrow">→</span>
+<div class="visual-stage" role="listitem"><div class="stage-heading"><span aria-hidden="true" class="stage-symbol">03</span><h3>Training-time image augmentation</h3></div><div class="augmentation-stack"><img alt="" aria-hidden="true" height="310" loading="lazy" src="assets/images/aligned-view.jpg" width="552"/><img alt="" aria-hidden="true" height="310" loading="lazy" src="assets/images/aligned-view.jpg" width="552"/><img alt="" aria-hidden="true" height="310" loading="lazy" src="assets/images/aligned-view.jpg" width="552"/><img alt="Layered views of the robot-arm rendering" height="310" loading="lazy" src="assets/images/aligned-view.jpg" width="552"/></div></div>
+</div>
+</div></section>
+<section aria-labelledby="ik-title" class="section" id="online-ik"><div class="wrap">
+<div class="section-heading"><span class="section-label">Online IK</span><h2 id="ik-title">Baselines</h2><p>Online IK can conflict with SONIC’s control, disrupting balance and coordination.</p></div>
+<div class="experiment-toolbar"><div aria-label="Online IK task" class="task-tabs" data-tabs="ik" role="tablist"><button aria-controls="ik-panel" aria-selected="true" data-task="laptop" id="ik-tab-laptop" role="tab">Laptop</button><button aria-controls="ik-panel" aria-selected="false" data-task="fridge" id="ik-tab-fridge" role="tab" tabindex="-1">Refrigerator</button><button aria-controls="ik-panel" aria-selected="false" data-task="curtain" id="ik-tab-curtain" role="tab" tabindex="-1">Curtain</button><button aria-controls="ik-panel" aria-selected="false" data-task="drawer" id="ik-tab-drawer" role="tab" tabindex="-1">Drawer</button></div><button class="button small" id="play-ik"><span aria-hidden="true">▶</span> Play all three</button></div>
+<div aria-labelledby="ik-tab-laptop" id="ik-panel" role="tabpanel"><div class="ik-grid"><figure class="media-card ik-card"><figcaption><span class="variant">A</span><div><h3>Endpoint priority</h3><p id="ik-desc-a">Arm and waist IK; SONIC legs.</p></div></figcaption><div class="video-frame"><video aria-label="Online IK variant A, laptop" controls="" data-src="assets/videos/ik-a-laptop.mp4" id="ik-video-a" muted="" playsinline="" poster="assets/images/ik-a-laptop.jpg" preload="none"></video></div></figure>
+<figure class="media-card ik-card"><figcaption><span class="variant">B</span><div><h3>Balance correction</h3><p id="ik-desc-b">Endpoint IK + SONIC balance feedback.</p></div></figcaption><div class="video-frame"><video aria-label="Online IK variant B, laptop" controls="" data-src="assets/videos/ik-b-laptop.mp4" id="ik-video-b" muted="" playsinline="" poster="assets/images/ik-b-laptop.jpg" preload="none"></video></div></figure>
+<figure class="media-card ik-card"><figcaption><span class="variant">C</span><div><h3>Limited intervention</h3><p id="ik-desc-c">Arm IK; SONIC waist and legs.</p></div></figcaption><div class="video-frame"><video aria-label="Online IK variant C, laptop" controls="" data-src="assets/videos/ik-c-laptop.mp4" id="ik-video-c" muted="" playsinline="" poster="assets/images/ik-c-laptop.jpg" preload="none"></video></div></figure></div></div>
+</div></section>
+<section aria-labelledby="data-title" class="section section-tint" id="data-collection"><div class="wrap">
+<div class="section-heading"><span class="section-label">Data diversity</span><h2 id="data-title">Diverse Human Data Collection</h2><p>Everyday tasks across varied environments.</p></div>
+<div class="data-gallery">
+<figure class="data-photo"><a aria-label="View photo: Box handling" class="data-photo-link" href="assets/images/data-diversity-01.jpg" rel="noopener" target="_blank"><img alt="Human data collection: box handling" decoding="async" height="540" loading="lazy" src="assets/images/data-diversity-01.jpg" width="960"/></a><figcaption>Box handling</figcaption></figure>
+<figure class="data-photo"><a aria-label="View photo: Book handling" class="data-photo-link" href="assets/images/data-diversity-02.jpg" rel="noopener" target="_blank"><img alt="Human data collection: book handling" decoding="async" height="540" loading="lazy" src="assets/images/data-diversity-02.jpg" width="960"/></a><figcaption>Book handling</figcaption></figure>
+<figure class="data-photo"><a aria-label="View photo: Door interaction" class="data-photo-link" href="assets/images/data-diversity-03.jpg" rel="noopener" target="_blank"><img alt="Human data collection: door interaction" decoding="async" height="540" loading="lazy" src="assets/images/data-diversity-03.jpg" width="960"/></a><figcaption>Door interaction</figcaption></figure>
+<figure class="data-photo"><a aria-label="View photo: Water dispensing" class="data-photo-link" href="assets/images/data-diversity-04.jpg" rel="noopener" target="_blank"><img alt="Human data collection: water dispensing" decoding="async" height="540" loading="lazy" src="assets/images/data-diversity-04.jpg" width="960"/></a><figcaption>Water dispensing</figcaption></figure>
+<figure class="data-photo"><a aria-label="View photo: Sink interaction" class="data-photo-link" href="assets/images/data-diversity-05.jpg" rel="noopener" target="_blank"><img alt="Human data collection: sink interaction" decoding="async" height="540" loading="lazy" src="assets/images/data-diversity-05.jpg" width="960"/></a><figcaption>Sink interaction</figcaption></figure>
+<figure class="data-photo"><a aria-label="View photo: Container handling" class="data-photo-link" href="assets/images/data-diversity-06.jpg" rel="noopener" target="_blank"><img alt="Human data collection: container handling" decoding="async" height="540" loading="lazy" src="assets/images/data-diversity-06.jpg" width="960"/></a><figcaption>Container handling</figcaption></figure>
+<figure class="data-photo"><a aria-label="View photo: Chair manipulation" class="data-photo-link" href="assets/images/data-diversity-07.jpg" rel="noopener" target="_blank"><img alt="Human data collection: chair manipulation" decoding="async" height="540" loading="lazy" src="assets/images/data-diversity-07.jpg" width="960"/></a><figcaption>Chair manipulation</figcaption></figure>
+<figure class="data-photo"><a aria-label="View photo: Block arrangement" class="data-photo-link" href="assets/images/data-diversity-08.jpg" rel="noopener" target="_blank"><img alt="Human data collection: block arrangement" decoding="async" height="540" loading="lazy" src="assets/images/data-diversity-08.jpg" width="960"/></a><figcaption>Block arrangement</figcaption></figure>
+<figure class="data-photo"><a aria-label="View photo: Whiteboard writing" class="data-photo-link" href="assets/images/data-diversity-09.jpg" rel="noopener" target="_blank"><img alt="Human data collection: whiteboard writing" decoding="async" height="540" loading="lazy" src="assets/images/data-diversity-09.jpg" width="960"/></a><figcaption>Whiteboard writing</figcaption></figure>
+</div>
+</div></section>
+<section aria-labelledby="resources-title" class="section resources-section" id="resources"><div class="wrap">
+<div class="section-heading"><span class="section-label">Resources</span><h2 id="resources-title">Supplementary material.</h2><p>Anonymous manuscript and the complete video collection.</p></div>
+<div class="resource-links"><a class="resource-link" href="assets/documents/paper.pdf" rel="noopener" target="_blank"><span class="resource-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v6h6M8 13h8M8 17h5"></path></svg></span><span><strong>Paper &amp; appendix</strong><small>Anonymous manuscript · PDF</small></span><span aria-hidden="true" class="resource-arrow">↗</span></a><a class="resource-link" download="" href="assets/documents/supplementary-videos.zip"><span class="resource-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m8 5 11 7-11 7z"></path></svg></span><span><strong>Video collection</strong><small>43 clips · <span id="archive-size">52.0 MB</span></small></span><span aria-hidden="true" class="resource-arrow">↓</span></a></div>
+</div></section>
+</main>
+<footer class="footer"><div class="wrap footer-inner"><a class="wordmark" href="#introduction"><img alt="" aria-hidden="true" class="brand-icon" height="32" src="favicon.svg" width="32"/>EgoHumanoid<span>–V2</span></a><p>Anonymous authors · ICLR 2027</p><a class="back-top" href="#introduction">Back to top ↑</a></div></footer>
+<div aria-live="polite" class="visually-hidden" id="announcement" role="status"></div>
+<noscript><div class="noscript-note">Enable JavaScript to switch videos, or <a href="assets/documents/supplementary-videos.zip">download the collection</a>.</div></noscript>
+</body>
+</html>
