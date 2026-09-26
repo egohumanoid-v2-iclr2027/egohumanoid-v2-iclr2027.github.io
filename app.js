@@ -11,7 +11,7 @@ const tasks = {
     name: "Curtain pulling", score: "53.33", ego: false,
   },
   drawer: {
-    name: "Drawer closing", score: "66.67", ego: false,
+    name: "Drawer closing", score: "61.67", ego: false,
   },
 };
 

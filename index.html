@@ -53,7 +53,7 @@
 <div class="highlight-grid">
 <article class="highlight-card"><strong class="highlight-value">0</strong><h3>Target-task robot demos</h3><p>Task supervision comes from humans.</p></article>
 <article class="highlight-card"><strong class="highlight-value">4</strong><h3>Whole-body skills</h3><p>Coordinated arms, torso, and legs.</p></article>
-<article class="highlight-card"><strong class="highlight-value">52.92<span>%</span></strong><h3>Mean task score</h3><p>200 human demonstrations per task.</p></article>
+<article class="highlight-card"><strong class="highlight-value">51.67<span>%</span></strong><h3>Mean task score</h3><p>200 human demonstrations per task.</p></article>
 </div>
 </div></section>
 <section aria-labelledby="demo-title" class="section section-tint" id="demonstrations"><div class="wrap">
@@ -75,22 +75,22 @@
 </div>
 </div></section>
 <section aria-labelledby="results-title" class="section" id="results"><div class="wrap">
-<div class="section-heading"><span class="section-label">Results</span><h2 id="results-title">Action Alignment</h2><p class="alignment-overview"><span><strong>H:</strong> Initial controller rollout</span><span><strong>K:</strong> Kinematic reference correction</span><span><strong>D:</strong> Execution-guided refinement</span></p></div>
+<div class="section-heading"><span class="section-label">Results</span><h2 id="results-title">Action Alignment</h2><p class="alignment-overview"><span><strong>H:</strong> Initial SONIC rollout</span><span><strong>K:</strong> Kinematic reference correction</span><span><strong>D:</strong> Dynamics-aware refinement</span></p></div>
 <div class="results-grid">
 <figure class="chart-card"><figcaption><h3>Real-world task score</h3><p>Mean across four tasks · higher is better</p></figcaption>
-<div aria-label="Mean task score: H 14.17 percent; H plus K 41.67 percent; H plus K plus selected refinement 52.92 percent." class="bar-chart" role="img">
-<div class="chart-row"><span>H</span><div class="bar-track"><span class="bar bar-baseline" style="--value:14.17"></span></div><strong>14.17%</strong></div>
-<div class="chart-row"><span>H + K</span><div class="bar-track"><span class="bar bar-middle" style="--value:41.67"></span></div><strong>41.67%</strong></div>
-<div class="chart-row full"><span>H + K + D<sub>s</sub></span><div class="bar-track"><span class="bar" style="--value:52.92"></span></div><strong>52.92%</strong></div>
+<div aria-label="Mean task score: H 21.25 percent; H plus K 47.09 percent; H plus K plus selected refinement 51.67 percent." class="bar-chart" role="img">
+<div class="chart-row"><span>H</span><div class="bar-track"><span class="bar bar-baseline" style="--value:21.25"></span></div><strong>21.25%</strong></div>
+<div class="chart-row"><span>H + K</span><div class="bar-track"><span class="bar bar-middle" style="--value:47.09"></span></div><strong>47.09%</strong></div>
+<div class="chart-row full"><span>H + K + D<sub>s</sub></span><div class="bar-track"><span class="bar" style="--value:51.67"></span></div><strong>51.67%</strong></div>
 </div>
 <div aria-hidden="true" class="chart-scale"><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
 </figure>
-<div class="chart-card endpoint-results"><h3>Executed endpoint error</h3><p>Simulation · lower is better</p>
-<div class="metric-pair"><span>Position</span><div><span class="before-value">11.49</span><span class="metric-arrow">→</span><strong>3.69 <small>cm</small></strong></div></div>
-<div class="metric-pair"><span>Palm orientation</span><div><span class="before-value">24.33°</span><span class="metric-arrow">→</span><strong>9.81°</strong></div></div>
+<div class="chart-card endpoint-results"><h3>Executed endpoint error</h3><p>Simulation · H → H + K + D<sub>s</sub> · lower is better</p>
+<div class="metric-pair"><span>Position</span><div><span class="before-value">11.21</span><span class="metric-arrow">→</span><strong>3.41 <small>cm</small></strong></div></div>
+<div class="metric-pair"><span>Palm orientation</span><div><span class="before-value">21.22°</span><span class="metric-arrow">→</span><strong>6.71°</strong></div></div>
 </div>
 </div>
-<details class="disclosure score-table-details"><summary>Task scores <span aria-hidden="true">＋</span></summary><div aria-label="Task score comparison table" class="table-scroll" role="region" tabindex="0"><table aria-label="Real-world task score (%)"><thead><tr><th scope="col">Action alignment</th><th scope="col">Laptop</th><th scope="col">Refrigerator</th><th scope="col">Curtain</th><th scope="col">Drawer</th><th scope="col">Mean</th></tr></thead><tbody><tr><th scope="row">H</th><td>0.00</td><td>0.00</td><td>28.33</td><td>28.33</td><td>14.17</td></tr><tr><th scope="row">H + K</th><td>46.67</td><td>31.67</td><td>51.67</td><td>36.67</td><td>41.67</td></tr><tr class="highlight-row"><th scope="row">H + K + D<sub>s</sub></th><td>53.33</td><td>38.33</td><td>53.33</td><td>66.67</td><td>52.92</td></tr></tbody></table></div></details>
+<details class="disclosure score-table-details"><summary>Task scores <span aria-hidden="true">＋</span></summary><div aria-label="Task score comparison table" class="table-scroll" role="region" tabindex="0"><table aria-label="Real-world task score (%)"><thead><tr><th scope="col">Action alignment</th><th scope="col">Laptop</th><th scope="col">Refrigerator</th><th scope="col">Curtain</th><th scope="col">Drawer</th><th scope="col">Mean</th></tr></thead><tbody><tr><th scope="row">H</th><td>0.00</td><td>0.00</td><td>28.33</td><td>56.67</td><td>21.25</td></tr><tr><th scope="row">H + K</th><td>46.67</td><td>31.67</td><td>51.67</td><td>58.33</td><td>47.09</td></tr><tr class="highlight-row"><th scope="row">H + K + D<sub>s</sub></th><td>53.33</td><td>38.33</td><td>53.33</td><td>61.67</td><td>51.67</td></tr></tbody></table></div></details>
 </div></section>
 <section aria-labelledby="visual-title" class="section section-tint" id="visual-alignment"><div class="wrap">
 <div class="section-heading"><span class="section-label">Method</span><h2 id="visual-title">Visual Alignment</h2></div>
