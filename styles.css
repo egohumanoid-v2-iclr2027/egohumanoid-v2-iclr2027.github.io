@@ -71,7 +71,7 @@ svg { display: block; width: 20px; height: 20px; fill: none; stroke: currentColo
 .publication-line { color: var(--color-hero-muted); margin-bottom: var(--space-lg); font-size: .8rem; letter-spacing: .035em; }
 .hero h1 { font-size: var(--text-display); font-weight: 800; line-height: 1.16; letter-spacing: -.035em; max-width: 1140px; text-wrap: balance; }
 .hero h1 span { color: var(--color-hero-accent); }
-.hero-description { margin-top: var(--space-xl); color: var(--color-hero-muted); font-size: 1.05rem; line-height: 1.65; max-width: 60ch; }
+.hero-description { margin-top: var(--space-xl); color: var(--color-hero-muted); font-size: 1.05rem; line-height: 1.65; max-width: 1140px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-top: var(--space-xl); }
 .hero-primary { color: var(--color-accent); background: var(--color-paper); border-color: var(--color-paper); }
 .hero-secondary { color: var(--color-on-dark); background: var(--color-transparent); border-color: var(--color-hero-rule); }
