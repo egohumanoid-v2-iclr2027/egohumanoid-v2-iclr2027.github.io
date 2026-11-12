@@ -12,3 +12,5 @@
 @media(max-width:400px){.edition{margin-left:0}.masthead{column-gap:16px;row-gap:0}}
 
 .reviewer-group+.reviewer-group{border-top:1px solid var(--color-rule);margin-top:8px;padding-top:8px}.reviewer-group h3{font-family:var(--font-body);font-size:13px;font-weight:650;letter-spacing:0;color:var(--color-secondary);padding:4px 7px}.question-link{white-space:normal}.question-link .qid{flex-shrink:0}
+
+.section-heading .reviewer-note{margin:10px 0 0;font-size:14px;line-height:1.6;font-weight:500;letter-spacing:0;color:var(--color-secondary)}
