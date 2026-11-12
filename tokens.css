@@ -33,7 +33,7 @@
   --color-error: oklch(48% .15 29);
   --color-overlay: oklch(18% .023 254 / .86);
   --color-transparent: transparent;
-  --font-display: "Manrope", "Arial", sans-serif;
+  --font-display: "DM Sans", "Arial", sans-serif;
   --font-body: "DM Sans", "Arial", sans-serif;
   --space-xs: .25rem;
   --space-sm: .5rem;
