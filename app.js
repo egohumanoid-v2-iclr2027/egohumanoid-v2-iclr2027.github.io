@@ -20,7 +20,7 @@ const questions = [
  ]}
 ];
 function renderQuestions(){
- $('reviewer-index').innerHTML=questions.map(r=>`<div class="reviewer-column"><h2>${r.reviewer}</h2>${r.groups.map(g=>`<div class="reviewer-group"><h3>${g.label}</h3>${g.items.map(q=>`<a class="question-link" href="#${q[2]}" data-question="${r.reviewer.toLowerCase()}-${q[0]}"><span class="qid">${q[0].toUpperCase()}</span>${q[1]}</a>`).join('')}</div>`).join('')}</div>`).join('');
+ $('reviewer-index').innerHTML=questions.map(r=>`<div class="reviewer-column"><h2>Reviewer ${r.reviewer}</h2>${r.groups.map(g=>`<div class="reviewer-group"><h3>${g.label}</h3>${g.items.map(q=>`<a class="question-link" href="#${q[2]}" data-question="${r.reviewer.toLowerCase()}-${q[0]}"><span class="qid">${q[0].toUpperCase()}</span>${q[1]}</a>`).join('')}</div>`).join('')}</div>`).join('');
 }
 function openQuestion(hash){
  const aliases={'msnh-impl':'msnh-w4','msnh-comparison':'msnh-w1','vfta-suggestion':'vfta-s1'};

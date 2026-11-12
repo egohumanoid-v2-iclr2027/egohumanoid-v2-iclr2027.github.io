@@ -20,3 +20,6 @@
 @media(max-width:400px){.masthead .brand:first-child{font-size:14px}.edition{font-size:12px}}
 
 @media(min-width:851px){.masthead{display:flex;position:sticky}.masthead .project-title{position:absolute;left:50%;transform:translateX(-50%);margin:0}.masthead .edition{margin-left:auto}}
+
+.reviewer-column h2,.section-heading .reviewer-note strong{font-family:var(--font-body);font-size:18px;font-weight:700;line-height:1.5;letter-spacing:0;color:var(--color-accent)}
+.section-heading ul.reviewer-note{list-style:none!important;padding:0!important;margin:14px 0 0}.section-heading .reviewer-note li{list-style:none!important;display:flex;align-items:baseline;gap:8px;margin:5px 0;font-size:16px}.section-heading .reviewer-note li::marker{content:""}.section-heading .reviewer-note strong{min-width:0;flex-shrink:0}
