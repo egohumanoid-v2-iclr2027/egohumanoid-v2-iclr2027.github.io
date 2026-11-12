@@ -32,3 +32,5 @@
 @media(max-width:600px){.failure-figure{grid-template-columns:minmax(0,1fr);row-gap:28px}}
 
 #data-efficiency .paper-figure{width:100%;max-width:760px;margin:24px auto 0}#data-efficiency .paper-figure.compact{max-width:680px}
+
+.hardware-grid{max-width:880px;margin:24px auto 0;gap:24px}.hardware-grid figcaption{margin:8px 0 0}
