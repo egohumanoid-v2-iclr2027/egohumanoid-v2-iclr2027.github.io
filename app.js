@@ -4,15 +4,28 @@ const tasks = ['Close Laptop','Open Fridge','Pull Curtain','Close Drawer'];
 const taskIds = ['close_laptop','open_fridge','pull_curtain','close_drawer'];
 const asset = 'assets/rebuttal/';
 const questions = [
- {reviewer:'mSNH',items:[['q1','Task completion','completion'],['q2','Refinement benefit','refinement'],['q3','Interaction & forces','resistance'],['q4','Zero-shot scope','scope'],['impl','Implementation','implementation'],['comparison','Prior work','scope']]},
- {reviewer:'vfta',items:[['q1','Stage-wise results','completion'],['q2','Contact failures','resistance'],['q3','Rules & scalability','data-efficiency'],['suggestion','Contact proxies','resistance']]},
- {reviewer:'fQQ5',items:[['q1','Visual alignment','scope'],['q2','Hardware gains','refinement'],['q3','Fixed-image test','visual-feedback'],['q4','Processing cost','selection-cost']]}
+ {reviewer:'mSNH',groups:[
+  {label:'Critical weaknesses',items:[['w1','Prior-work comparisons','scope'],['w2','Refinement contribution','refinement'],['w3','Success & generalization','completion'],['w4','Implementation & cost','implementation']]},
+  {label:'Questions',items:[['q1','Success & failure analysis','completion'],['q2','Refinement & selection','refinement'],['q3','Interaction & contact','resistance'],['q4','Zero-shot scope','scope']]}
+ ]},
+ {reviewer:'vfta',groups:[
+  {label:'Critical weaknesses',items:[['w1','Contact & task completion','completion'],['w2','Data efficiency & cost','data-efficiency']]},
+  {label:'Questions',items:[['q1','Stage-wise results','completion'],['q2','Contact-stage failures','completion'],['q3','Rules & data scaling','implementation']]},
+  {label:'Suggestion',items:[['s1','Contact-force proxies','resistance']]}
+ ]},
+ {reviewer:'fQQ5',groups:[
+  {label:'Critical weaknesses',items:[['w1','Image–action consistency','scope'],['w2','Hardware benefit','refinement']]},
+  {label:'Minor concerns',items:[['m1','Visual feedback','visual-feedback'],['m2','Overall processing cost','selection-cost']]},
+  {label:'Questions',items:[['q1','Image–action mismatch','scope'],['q2','Gain reliability & success','refinement'],['q3','Fixed-image test','visual-feedback'],['q4','Overall collection cost','selection-cost']]}
+ ]}
 ];
 function renderQuestions(){
- $('reviewer-index').innerHTML=questions.map(r=>`<div class="reviewer-column"><h2>${r.reviewer}</h2>${r.items.map(q=>`<a class="question-link" href="#${q[2]}" data-question="${r.reviewer.toLowerCase()}-${q[0]}"><span class="qid">${q[0].startsWith('q')?q[0].toUpperCase():'+'}</span>${q[1]}</a>`).join('')}</div>`).join('');
+ $('reviewer-index').innerHTML=questions.map(r=>`<div class="reviewer-column"><h2>${r.reviewer}</h2>${r.groups.map(g=>`<div class="reviewer-group"><h3>${g.label}</h3>${g.items.map(q=>`<a class="question-link" href="#${q[2]}" data-question="${r.reviewer.toLowerCase()}-${q[0]}"><span class="qid">${q[0].toUpperCase()}</span>${q[1]}</a>`).join('')}</div>`).join('')}</div>`).join('');
 }
 function openQuestion(hash){
- for(const r of questions){const q=r.items.find(q=>`${r.reviewer.toLowerCase()}-${q[0]}`===hash);if(q){const target=(r.reviewer==='mSNH'&&['q4','comparison'].includes(q[0]))?document.querySelector('#scope details'):$(q[2]);document.querySelectorAll('[data-question]').forEach(a=>{const selected=a.dataset.question===hash;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});if(target.tagName==='DETAILS')target.open=true;target.scrollIntoView({block:'start'});return true;}}return false;
+ const aliases={'msnh-impl':'msnh-w4','msnh-comparison':'msnh-w1','vfta-suggestion':'vfta-s1'};
+ hash=aliases[hash]||hash;
+ for(const r of questions){const q=r.groups.flatMap(g=>g.items).find(q=>`${r.reviewer.toLowerCase()}-${q[0]}`===hash);if(q){const target=(r.reviewer==='mSNH'&&['q4','w1'].includes(q[0]))?document.querySelector('#scope details'):$(q[2]);document.querySelectorAll('[data-question]').forEach(a=>{const selected=a.dataset.question===hash;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});if(target.tagName==='DETAILS')target.open=true;target.scrollIntoView({block:'start'});return true;}}return false;
 }
 function table(headers,rows,{highlight=-1,success=-1}={}){
  return `<div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable results table"><table><thead><tr>${headers.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr${i===highlight?' class="highlight"':''}>${r.map((c,j)=>j===0?`<th scope="row">${c}</th>`:`<td${j===success?' class="success"':''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
