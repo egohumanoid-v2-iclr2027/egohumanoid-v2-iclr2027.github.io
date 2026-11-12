@@ -30,3 +30,5 @@
 
 .failure-figure{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px;row-gap:48px}.sankey-panel{position:relative;display:block;overflow:hidden;aspect-ratio:42/25}.sankey-panel img{position:absolute;width:200%;height:200%;max-width:none;left:0;top:0}.sankey-panel:nth-child(even) img{left:-100%}.sankey-panel:nth-child(n+3) img{top:-100%}
 @media(max-width:600px){.failure-figure{grid-template-columns:minmax(0,1fr);row-gap:28px}}
+
+#data-efficiency .paper-figure{width:100%;max-width:760px;margin:24px auto 0}#data-efficiency .paper-figure.compact{max-width:680px}
