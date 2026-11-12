@@ -7,6 +7,6 @@
 
 .brand a{color:inherit;text-decoration:none}
 
-.edition{margin-left:auto;font-family:var(--font-display);font-size:21px;font-weight:750;line-height:1.25;letter-spacing:-.035em;color:var(--color-ink);white-space:nowrap}
-@media(max-width:600px){.masthead{gap:10px;flex-wrap:wrap;align-content:center}.edition{font-size:17px}.brand{font-size:17px}}
+.edition{margin-left:auto;color:#000}
+@media(max-width:600px){.masthead{gap:10px;flex-wrap:wrap;align-content:center}.brand{font-size:17px}}
 @media(max-width:400px){.edition{margin-left:0}.masthead{column-gap:16px;row-gap:0}}
