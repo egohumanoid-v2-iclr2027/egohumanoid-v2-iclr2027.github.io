@@ -1,298 +1,66 @@
-"use strict";
-
-const tasks = {
-  laptop: {
-    name: "Laptop closing", score: "53.33", ego: true,
-  },
-  fridge: {
-    name: "Refrigerator opening", score: "38.33", ego: true,
-  },
-  curtain: {
-    name: "Curtain pulling", score: "53.33", ego: false,
-  },
-  drawer: {
-    name: "Drawer closing", score: "61.67", ego: false,
-  },
-};
-
-const state = { demo: "laptop", ik: "laptop", view: "external" };
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => [...document.querySelectorAll(selector)];
-const announce = (message) => { $("#announcement").textContent = message; };
-const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const heroVideos = $$("video[data-hero]");
-let previewsPaused = reducedMotion.matches || Boolean(navigator.connection?.saveData);
-
-function nearViewport(video) {
-  const rect = video.getBoundingClientRect();
-  return rect.bottom > -240 && rect.top < innerHeight + 240;
+'use strict';
+const $ = id => document.getElementById(id);
+const tasks = ['Close Laptop','Open Fridge','Pull Curtain','Close Drawer'];
+const taskIds = ['close_laptop','open_fridge','pull_curtain','close_drawer'];
+const asset = 'assets/rebuttal/';
+const questions = [
+ {reviewer:'mSNH',role:'Reliability · refinement · scope',items:[
+ ['q1','Task completion','Full-task success, uncertainty and failure categories','Tables 1–2, 4–7 provide stage-wise and full-task outcomes alongside task scores. Figures 4–5 include SD from the same checkpoint per condition; Figure 6 decomposes observed failures. SD is not a trial-level confidence interval. ',['completion','data-efficiency']],
+ ['q2','Refinement benefit','Does refinement improve on K, and which candidates are retained?','The revised Unit/MLP comparison covers all four hardware tasks. Table 11 reports H/K/D selection, rejection and the mean selected D round. MLP is better on three tasks; Unit is slightly better on Pull Curtain. A separate linear-response hardware comparison is not included.',['refinement','selection-cost']],
+ ['q3','Interaction & forces','Interaction accuracy, external resistance and contact modeling','The resistance sweep replays fixed aligned motions under 0–20 N opposing forces. Together with the real-world failure analysis, it characterizes sensitivity and observed failure modes. It does not measure object-relative accuracy or simulate grasp and object mechanics.',['resistance','completion']],
+ ['q4','Zero-shot scope','What exactly is zero-shot in this work?','Policies receive task-specific human demonstration training, then transfer to the robot without target-task robot demonstrations. The expanded 50-task study evaluates alignment, not unseen-task policy generalization.',['scope']],
+ ['impl','Reproducibility','Optimization settings and task-specific processing','Appendix A.2 specifies optimization bounds, regularization weights and the update schedule. Appendix A.4 clarifies hand-command binarization, filtering, curtain-tail trimming and candidate selection.',['implementation','selection-cost']],
+ ['comparison','Prior work','How does the comparison relate to prior complete pipelines?','The contribution centers on offline execution-aware refinement under a frozen controller. The HuMI-style comparison isolates motion initialization; it does not compare entire acquisition, controller and policy pipelines.',['scope']]
+ ]},
+ {reviewer:'vfta',role:'Completion · contact · data cost',items:[
+ ['q1','Stage-wise outcomes','S1, S2 and full-task success for the main experiments','The revised tables cover the alignment and visual ablations and every evaluated demonstration budget. S3 is full-task success. Reported uncertainty is SD from the same checkpoint per condition, rather than the requested trial-level standard error.',['completion','data-efficiency','scope']],
+ ['q2','Contact failures','Which failures occur during interaction under object resistance?','Figure 6 separates the first unsuccessful stage and observed failure modes. The resistance experiment adds a controlled simulation diagnostic, but behavioral failures alone do not identify force insufficiency or slippage as their cause.',['resistance','completion']],
+ ['q3','Rules & scalability','Task-specific rules, sample efficiency and processing burden','The task-specific preprocessing is clarified in A.4. Human data reaches comparable mean task scores and the same observed full-task success on the two comparison tasks, using more demonstrations but less collection labor. Table 11 reports all-input processing cost and rejection. The observed budgets do not establish a performance plateau or eventual parity.',['implementation','data-efficiency','selection-cost']],
+ ['suggestion','Contact proxies','Could contact-force or impedance proxies help?','The resistance diagnostic probes a fixed controller under external load. Incorporating grasp, friction or object mechanics into refinement remains a possible extension; the current results do not establish that contact modeling is unnecessary.',['resistance']]
+ ]},
+ {reviewer:'fQQ5',role:'Visual consistency · feedback · cost',items:[
+ ['q1','Image–action pairing','How consistent are the generated images and aligned actions?','Arm rendering reduces appearance mismatch while retaining the recorded background. It does not reconstruct viewpoint changes caused by the robot’s motion. The visual ablation measures overall rendering and augmentation benefits, not a separate residual 3D mismatch metric.',['scope']],
+ ['q2','Hardware gains','How reliable is the gain from dynamics-aware refinement?','Tables 1–2 compare task score and complete-task success, with SD from the same checkpoint per condition. These observations support a task-dependent benefit; modest differences are not presented as a statistical-significance result.',['refinement','completion']],
+ ['q3','Fixed-image test','Would the policy behave similarly with a fixed visual input?','The new visual-input videos compare recorded image sequences with a fixed first frame, black, fixed noise and white images under simulated state feedback. Fixed-first-frame examples show limited action progression. This is a qualitative diagnostic, not a real-robot closed-loop success-rate evaluation.',['visual-feedback']],
+ ['q4','Full processing cost','What happens to the cost advantage after processing and rejection?','Table 11 includes the entire input set and ultimately rejected demonstrations, with four workstations in parallel. Selection is automated and reuses rollout measurements. Collection labor and offline processing are reported separately rather than combined into a monetary-cost reduction.',['selection-cost','data-efficiency']]
+ ]}
+];
+const labels={'completion':'Task completion','refinement':'Refinement benefit','resistance':'Resistance videos','visual-feedback':'Visual-input videos','data-efficiency':'Demonstration budgets','selection-cost':'Selection & cost','implementation':'Implementation','scope':'Scope & consistency'};
+function renderQuestions(){
+ $('reviewer-index').innerHTML=questions.map(r=>`<div class="reviewer-column"><h2>${r.reviewer}</h2><p class="reviewer-role">${r.role}</p>${r.items.map(q=>`<a class="question-link" href="#${r.reviewer.toLowerCase()}-${q[0]}" data-question="${r.reviewer.toLowerCase()}-${q[0]}"><span class="qid">${q[0].startsWith('q')?q[0].toUpperCase():'+'}</span>${q[1]}<span class="arrow" aria-hidden="true">↗</span></a>`).join('')}</div>`).join('');
 }
-
-function loadVideo(video) {
-  if (!video.getAttribute("src")) {
-    video.src = video.dataset.src;
-    video.preload = "metadata";
-    video.load();
-  }
+function openQuestion(hash,scroll=true){
+ for(const r of questions){const q=r.items.find(q=>`${r.reviewer.toLowerCase()}-${q[0]}`===hash);if(!q)continue;
+ $('question-answer').hidden=false;$('question-tag').textContent=`${r.reviewer} / ${q[0].startsWith('q')?q[0].toUpperCase():'Additional concern'}`;$('question-title').textContent=q[2];$('question-summary').textContent=q[3];$('question-links').innerHTML=q[4].map(s=>`<a href="#${s}">${labels[s]} →</a>`).join('');document.querySelectorAll('.question-link').forEach(a=>a.classList.toggle('selected',a.dataset.question===hash));if(scroll)$('question-answer').scrollIntoView({block:'center'});return true;
+ }return false;
 }
-
-function clearFeedback(video) {
-  const frame = video.closest(".video-frame");
-  frame?.querySelector(".media-error")?.remove();
-  frame?.querySelector(".media-status")?.remove();
+function table(headers,rows,{highlight=-1,success=-1}={}){
+ return `<div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable results table"><table><thead><tr>${headers.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr${i===highlight?' class="highlight"':''}>${r.map((c,j)=>j===0?`<th scope="row">${c}</th>`:`<td${j===success?' class="success"':''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
-
-function setClip(video, id, label) {
-  video.pause();
-  clearFeedback(video);
-  video.removeAttribute("src");
-  video.poster = `assets/images/${id}.jpg`;
-  video.dataset.src = `assets/videos/${id}.mp4`;
-  video.setAttribute("aria-label", label);
-  video.load();
-  if (nearViewport(video)) loadVideo(video);
+function options(id,names=tasks){$(id).innerHTML=names.map((n,i)=>`<option value="${i}">${n}</option>`).join('');}
+const f2=n=>Number(n).toFixed(2);const score=r=>`${f2(r[3])} ± ${f2(r[4])}`;
+const variants=['H','H + K','H + K + D (Unit)','H + K + D (MLP)'];
+let data={};
+function renderStages(){const i=Number($('stage-task').value);$('stage-table').innerHTML=table(['Alignment','S1 (%)','S2 (%)','S3 / full task (%)','Task score (%)'],data.stages.results[i].map((r,j)=>[variants[j],...r.slice(0,3),score(r)]),{highlight:3,success:3});}
+function renderRefinement(){const rows=variants.map((v,j)=>[v,...data.stages.results.map(t=>score(t[j]))]);$('refinement-table').innerHTML=table(['Alignment',...tasks],rows,{highlight:3});}
+function renderBudget(){const group=data.budgets[$('budget-source').value],i=Number($('budget-task').value);$('budget-table').innerHTML=table(['Demos','S1 (%)','S2 (%)','S3 / full task (%)','Task score (%)'],group.results[i].map((r,j)=>[group.budgets[j],...r.slice(0,3),score(r)]),{highlight:group.budgets.length-1,success:3});}
+function renderVisual(){const i=Number($('visual-task').value);$('visual-table').innerHTML=table(['Aug. / Render','S1 (%)','S2 (%)','S3 / full task (%)','Task score (%)'],data.visual.results[i].map((r,j)=>[`${data.visual.conditions[j].augmentation?'✓':'×'} / ${data.visual.conditions[j].rendering?'✓':'×'}`,...(r?[...r.slice(0,3),score(r)]:['—','—','—','Not applicable'])]),{highlight:i===3?2:3,success:3});}
+function setVideo(id,src,poster){const v=$(id);v.pause();v.src=src;v.poster=poster;v.load();v.onended=()=>{const kind=id.startsWith('force')?'force':'vision';if(['baseline','treatment'].every(x=>$(kind+'-'+x).paused))$(kind+'-play').textContent='Play both';};v.onerror=()=>{const kind=id.startsWith('force')?'force':'vision';$(kind+'-play-status').textContent='Video could not load. Check your connection and try again.';};}
+function updateForce(){const task=taskIds[Number($('force-task').value)],n=Number($('force-level').value);setVideo('force-baseline',`${asset}videos/resistance/${task}/00.mp4`,`${asset}posters/resistance-${task}-00.jpg`);setVideo('force-treatment',`${asset}videos/resistance/${task}/${String(n).padStart(2,'0')}.mp4`,`${asset}posters/resistance-${task}-${String(n).padStart(2,'0')}.jpg`);$('force-label').textContent=`${n} N`;$('force-play').textContent='Play both';$('force-play-status').textContent='';const base=data.resistance.find(r=>r.task===task&&r.force_n===0),r=data.resistance.find(r=>r.task===task&&r.force_n===n);$('force-reading').innerHTML=`Bilateral position error: <strong>${f2(base.position_error_cm)} cm</strong> at 0 N → <strong>${f2(r.position_error_cm)} cm</strong> at ${n} N. Change: ${r.position_error_increase_vs_0N_cm>=0?'+':''}${f2(r.position_error_increase_vs_0N_cm)} cm.`;}
+function updateVision(){const task=taskIds[Number($('vision-task').value)],condition=$('vision-condition').value;for(const [id,c]of [['vision-baseline','video'],['vision-treatment',condition]])setVideo(id,`${asset}videos/vision/${task}/${c}.mp4`,`${asset}posters/vision-${task}-${c}.jpg`);$('vision-label').textContent=$('vision-condition').selectedOptions[0].textContent;$('vision-play').textContent='Play both';$('vision-play-status').textContent='';}
+async function playPair(prefix){const vs=[$(prefix+'-baseline'),$(prefix+'-treatment')],btn=$(prefix+'-play'),status=$(prefix+'-play-status');if(vs.some(v=>!v.paused)){vs.forEach(v=>v.pause());btn.textContent='Play both';return;}btn.disabled=true;status.textContent='Loading comparison…';try{await Promise.all(vs.map(v=>new Promise((resolve,reject)=>{if(v.readyState>=3)return resolve();const timer=setTimeout(()=>{cleanup();reject(Error('Video loading timed out'));},20000);const cleanup=()=>{clearTimeout(timer);v.removeEventListener('canplay',ready);v.removeEventListener('error',failed);};const ready=()=>{cleanup();resolve();};const failed=()=>{cleanup();reject(Error('Video load failed'));};v.addEventListener('canplay',ready);v.addEventListener('error',failed);v.preload='auto';v.load();})));vs.forEach(v=>v.currentTime=0);const results=await Promise.allSettled(vs.map(v=>v.play()));if(results.some(r=>r.status==='rejected'))throw Error('Playback unavailable');btn.textContent='Pause both';status.textContent='Playing from the start. Individual video controls remain available.';}catch(e){vs.forEach(v=>v.pause());status.textContent='Playback could not start. Use the individual play controls or try again.';}finally{btn.disabled=false;}}
+function resetPair(prefix){['baseline','treatment'].forEach(x=>{const v=$(prefix+'-'+x);v.pause();v.currentTime=0;});$(prefix+'-play').textContent='Play both';$(prefix+'-play-status').textContent='';}
+const stageText=[['The right hand reaches a pressing position above the laptop lid.','The right hand applies an effective downward press.','The laptop lid is fully closed.'],['The left hand reaches the vicinity of the door gap.','The left hand hooks into the door gap.','The refrigerator door opens.'],['The right hand grasps the curtain.','The right hand pulls and moves the curtain.','The curtain is pulled open by one meter.'],['The right foot is raised and the toe is positioned in front of the drawer.','The right foot pushes the drawer inward.','The drawer is fully closed.']];
+function initStatic(){renderQuestions();$('stage-definitions').innerHTML=`<div class="definitions">${tasks.map((t,i)=>`<article><h3>${t}</h3><ol>${stageText[i].map(s=>`<li>${s}</li>`).join('')}</ol></article>`).join('')}</div>`;['stage-task','force-task','vision-task','budget-task','visual-task'].forEach(x=>options(x));$('force-level').innerHTML=Array.from({length:21},(_,i)=>`<option value="${i}"${i===20?' selected':''}>${i} N</option>`).join('');
+ const costs=[['Close Laptop',312,'0.96','0.00','0.00','99.0','6.8','0.67'],['Open Fridge',228,'3.07','0.00','0.00','96.9','5.2','0.44'],['Pull Curtain',251,'0.00','0.00','0.00','100','7.1','0.51'],['Close Drawer',270,'3.33','4.44','0.00','92.2','3.3','0.38'],['Average','265.25','1.84','1.11','0.00','97.1','5.60','0.50']];$('selection-table').innerHTML=table(['Task','Demos','Reject (%)','H (%)','K (%)','D (%)','Mean D round','Time (h)'],costs,{highlight:4});
+ $('hardware-grid').innerHTML=tasks.map((t,i)=>{const slug=['laptop','fridge','curtain','drawer'][i];return `<figure><video controls playsinline preload="none" poster="assets/images/deployment-${slug}.jpg" src="assets/videos/deployment-${slug}.mp4" aria-label="Real-robot execution: ${t}"></video><figcaption>${t}</figcaption></figure>`;}).join('');
+ document.addEventListener('click',e=>{const link=e.target.closest('[data-question]');if(link){e.preventDefault();history.pushState(null,'',link.hash);openQuestion(link.dataset.question);}const nav=e.target.closest('#topic-nav a');if(nav){$('topic-nav').classList.remove('open');$('menu-toggle').setAttribute('aria-expanded','false');}});
+ $('close-answer').onclick=()=>{$('question-answer').hidden=true;document.querySelectorAll('.question-link').forEach(a=>a.classList.remove('selected'));history.replaceState(null,'','#review-guide');};window.addEventListener('hashchange',()=>openQuestion(location.hash.slice(1)));openQuestion(location.hash.slice(1));
+ $('menu-toggle').onclick=()=>{const open=$('topic-nav').classList.toggle('open');$('menu-toggle').setAttribute('aria-expanded',String(open));};
+ for(const p of ['force','vision']){$(p+'-play').onclick=()=>playPair(p);$(p+'-reset').onclick=()=>resetPair(p);}
+ const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){document.querySelectorAll('#topic-nav a').forEach(a=>{const active=a.hash==='#'+entry.target.id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}},{rootMargin:'-100px 0px -65% 0px'});document.querySelectorAll('main section').forEach(s=>observer.observe(s));
 }
-
-function selectTab(group, task, focus = false) {
-  state[group] = task;
-  const tablist = $(`[data-tabs="${group}"]`);
-  tablist.querySelectorAll("[role=tab]").forEach((tab) => {
-    const selected = tab.dataset.task === task;
-    tab.setAttribute("aria-selected", String(selected));
-    tab.tabIndex = selected ? 0 : -1;
-    if (selected && focus) tab.focus({ preventScroll: true });
-  });
-  $(`#${group}-panel`).setAttribute("aria-labelledby", `${group}-tab-${task}`);
-  if (group === "demo") renderDemo();
-  if (group === "ik") renderIK();
-  announce(`${tasks[task].name} selected.`);
-}
-
-function renderDemo() {
-  const task = tasks[state.demo];
-  state.view = "external";
-  $("#task-heading").textContent = task.name;
-  $("#task-score").replaceChildren(document.createTextNode(task.score), Object.assign(document.createElement("span"), { textContent: "%" }));
-  $("#view-toggle").hidden = !task.ego;
-  $("#view-original").hidden = state.demo !== "curtain";
-  $("#curtain-edit-note").hidden = state.demo !== "curtain";
-  updateViewControls();
-  setClip($("#human-video"), `human-${state.demo}`, `Human demonstration: ${task.name}`);
-  setClip($("#robot-video"), `deployment-${state.demo}`, `Robot execution: ${task.name}`);
-}
-
-function updateViewControls() {
-  const label = state.view === "ego" ? "Show external view" : "Show egocentric view";
-  $("#view-toggle").setAttribute("aria-label", label);
-  $("#view-toggle").setAttribute("title", label);
-  $("#view-toggle").setAttribute("aria-pressed", String(state.view === "ego"));
-  $("#view-original").setAttribute("aria-pressed", String(state.view === "original"));
-  $("#view-original").textContent = state.view === "original" ? "Chair removed" : "Original";
-}
-
-function changeView(view) {
-  if (state.view === view) return;
-  const video = $("#robot-video");
-  const restoreTime = state.demo === "curtain" ? video.currentTime : 0;
-  const restorePlayback = state.demo === "curtain" && !video.paused;
-  state.view = view;
-  updateViewControls();
-  const clip = view === "original" ? "deployment-curtain-original" : `${view === "ego" ? "ego" : "deployment"}-${state.demo}`;
-  const label = view === "original" ? "Original recording" : view === "ego" ? "Egocentric" : state.demo === "curtain" ? "Chair-removed visualization" : "External";
-  setClip(video, clip, `${label}: ${tasks[state.demo].name}`);
-  if (restoreTime || restorePlayback) {
-    video.addEventListener("loadedmetadata", () => {
-      if (video.dataset.src !== `assets/videos/${clip}.mp4`) return;
-      video.currentTime = Math.min(restoreTime, video.duration);
-      if (restorePlayback) video.play().catch(() => {});
-    }, { once: true });
-  }
-  announce(`${label} selected.`);
-}
-
-function renderIK() {
-  const foot = state.ik === "drawer";
-  $("#ik-desc-a").textContent = foot ? "Leg IK; SONIC on remaining joints." : "Arm and waist IK; SONIC legs.";
-  $("#ik-desc-b").textContent = foot ? "Leg IK + SONIC balance feedback." : "Endpoint IK + SONIC balance feedback.";
-  $("#ik-desc-c").textContent = foot ? "IK controls the right leg; SONIC elsewhere." : "Arm IK; SONIC waist and legs.";
-  ["a", "b", "c"].forEach((variant) => setClip($(`#ik-video-${variant}`), `ik-${variant}-${state.ik}`, `Online IK variant ${variant.toUpperCase()}: ${tasks[state.ik].name}`));
-}
-
-$$('[role="tablist"]').forEach((tablist) => {
-  tablist.addEventListener("click", (event) => {
-    const button = event.target.closest("[role=tab]");
-    if (button) selectTab(tablist.dataset.tabs, button.dataset.task);
-  });
-  tablist.addEventListener("keydown", (event) => {
-    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
-    event.preventDefault();
-    const buttons = [...tablist.querySelectorAll("[role=tab]")];
-    let index = buttons.indexOf(document.activeElement);
-    if (index < 0) return;
-    if (event.key === "Home") index = 0;
-    else if (event.key === "End") index = buttons.length - 1;
-    else index = (index + (event.key === "ArrowRight" ? 1 : -1) + buttons.length) % buttons.length;
-    selectTab(tablist.dataset.tabs, buttons[index].dataset.task, true);
-  });
-});
-
-$("#view-toggle").addEventListener("click", () => changeView(state.view === "ego" ? "external" : "ego"));
-$("#view-original").addEventListener("click", () => changeView(state.view === "original" ? "external" : "original"));
-$("#robot-video").addEventListener("ratechange", (event) => {
-  $("#playback-speed").textContent = `${Number(event.currentTarget.playbackRate.toFixed(2))}×`;
-});
-$$('[data-hero-task]').forEach((link) => link.addEventListener("click", () => selectTab("demo", link.dataset.heroTask)));
-
-function bindGroupPlayback(button, videos, playLabel, pauseLabel) {
-  function updateLabel() {
-    const playing = videos.some((video) => !video.paused && !video.ended);
-    button.replaceChildren(Object.assign(document.createElement("span"), { textContent: playing ? "Ⅱ" : "▶" }), document.createTextNode(` ${playing ? pauseLabel : playLabel}`));
-    button.firstElementChild.setAttribute("aria-hidden", "true");
-    button.setAttribute("aria-pressed", String(playing));
-  }
-  videos.forEach((video) => ["play", "pause", "ended", "emptied"].forEach((event) => video.addEventListener(event, updateLabel)));
-  button.addEventListener("click", async () => {
-    if (videos.some((video) => !video.paused && !video.ended)) {
-      videos.forEach((video) => video.pause());
-    } else {
-      heroVideos.forEach((video) => video.pause());
-      const results = await Promise.allSettled(videos.map((video) => {
-        loadVideo(video);
-        if (video.ended) video.currentTime = 0;
-        return video.play();
-      }));
-      if (results.some((result) => result.status === "rejected")) announce("One or more clips could not start. Use the video controls to retry.");
-    }
-    updateLabel();
-  });
-}
-
-bindGroupPlayback($("#play-pair"), [$("#human-video"), $("#robot-video")], "Play both", "Pause both");
-bindGroupPlayback($("#play-ik"), ["a", "b", "c"].map((variant) => $(`#ik-video-${variant}`)), "Play all three", "Pause all three");
-
-const videoLoader = new IntersectionObserver((entries) => {
-  entries.forEach(({ target, isIntersecting }) => {
-    if (isIntersecting) loadVideo(target);
-  });
-}, { rootMargin: "200px 0px" });
-
-$$('.video-frame video').forEach((video) => {
-  videoLoader.observe(video);
-  let waitingTimer;
-  video.addEventListener("waiting", () => {
-    clearTimeout(waitingTimer);
-    waitingTimer = setTimeout(() => {
-      const frame = video.closest(".video-frame");
-      if (video.paused || video.error || frame.querySelector(".media-status")) return;
-      const status = Object.assign(document.createElement("span"), { className: "media-status", textContent: "Loading video…" });
-      status.setAttribute("role", "status");
-      frame.append(status);
-    }, 800);
-  });
-  ["playing", "canplay", "emptied", "pause"].forEach((event) => video.addEventListener(event, () => {
-    clearTimeout(waitingTimer);
-    video.closest(".video-frame").querySelector(".media-status")?.remove();
-  }));
-  video.addEventListener("error", () => {
-    if (!video.getAttribute("src") || !video.error || video.error.code === 1) return;
-    clearFeedback(video);
-    const error = Object.assign(document.createElement("div"), { className: "media-error" });
-    const message = Object.assign(document.createElement("p"), { textContent: "This video could not load." });
-    const retry = Object.assign(document.createElement("button"), { textContent: "Retry video", type: "button" });
-    retry.addEventListener("click", () => { clearFeedback(video); video.load(); video.play().catch(() => {}); });
-    const link = Object.assign(document.createElement("a"), { href: video.dataset.src, textContent: "Open MP4", target: "_blank", rel: "noopener" });
-    error.append(message, retry, link);
-    video.closest(".video-frame").append(error);
-  });
-});
-
-function updatePreviewButton() {
-  const button = $("#preview-toggle");
-  button.setAttribute("aria-pressed", String(previewsPaused));
-  button.querySelector(".play-icon").textContent = previewsPaused ? "▶" : "Ⅱ";
-  button.lastElementChild.textContent = previewsPaused ? "Play previews" : "Pause previews";
-}
-
-function playPreview(video) {
-  if (previewsPaused || document.hidden || !nearViewport(video)) return;
-  loadVideo(video);
-  video.play().catch(() => {
-    previewsPaused = true;
-    heroVideos.forEach((preview) => preview.pause());
-    updatePreviewButton();
-  });
-}
-
-const previewObserver = new IntersectionObserver((entries) => {
-  entries.forEach(({ target, isIntersecting }) => {
-    if (isIntersecting) playPreview(target);
-    else target.pause();
-  });
-}, { threshold: .15 });
-heroVideos.forEach((video) => previewObserver.observe(video));
-updatePreviewButton();
-$("#preview-toggle").addEventListener("click", () => {
-  previewsPaused = !previewsPaused;
-  heroVideos.forEach((video) => previewsPaused ? video.pause() : playPreview(video));
-  updatePreviewButton();
-});
-reducedMotion.addEventListener("change", (event) => {
-  if (event.matches) {
-    previewsPaused = true;
-    heroVideos.forEach((video) => video.pause());
-    updatePreviewButton();
-  }
-});
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) $$("video").forEach((video) => video.pause());
-  else heroVideos.forEach(playPreview);
-});
-
-const navToggle = $(".nav-toggle");
-function closeNavigation() {
-  navToggle.setAttribute("aria-expanded", "false");
-  $("#section-links").classList.remove("is-open");
-}
-navToggle.addEventListener("click", () => {
-  const open = navToggle.getAttribute("aria-expanded") !== "true";
-  navToggle.setAttribute("aria-expanded", String(open));
-  $("#section-links").classList.toggle("is-open", open);
-});
-$(".section-nav").addEventListener("keydown", (event) => {
-  if (event.key === "Escape") { closeNavigation(); navToggle.focus(); }
-});
-$$('.section-links a').forEach((link) => link.addEventListener("click", closeNavigation));
-document.addEventListener("click", (event) => {
-  if (!event.target.closest(".section-nav")) closeNavigation();
-});
-window.matchMedia("(min-width: 75rem)").addEventListener("change", closeNavigation);
-
-const sections = $$('main > section[id]');
-const sectionLinks = $$(".section-links a");
-let scrollUpdatePending = false;
-function updateScrollPosition() {
-  const total = document.documentElement.scrollHeight - innerHeight;
-  const progress = total > 0 ? Math.min(1, Math.max(0, scrollY / total)) : 0;
-  $(".reading-progress").style.transform = `scaleX(${progress})`;
-  $(".masthead").classList.toggle("is-scrolled", scrollY > 40);
-  $(".section-nav").classList.toggle("on-hero", $("#introduction").getBoundingClientRect().bottom > innerHeight * .5);
-  let current = sections[0].id;
-  sections.forEach((section) => {
-    if (section.getBoundingClientRect().top <= innerHeight * .33) current = section.id;
-  });
-  if (progress > .99) current = sections.at(-1).id;
-  sectionLinks.forEach((link) => {
-    if (link.hash === `#${current}`) link.setAttribute("aria-current", "location");
-    else link.removeAttribute("aria-current");
-  });
-  scrollUpdatePending = false;
-}
-function scheduleScrollUpdate() {
-  if (scrollUpdatePending) return;
-  scrollUpdatePending = true;
-  requestAnimationFrame(updateScrollPosition);
-}
-window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
-window.addEventListener("resize", scheduleScrollUpdate, { passive: true });
-$$('details').forEach((details) => details.addEventListener("toggle", scheduleScrollUpdate));
-updateScrollPosition();
+async function init(){initStatic();const files={stages:'subtask_results',budgets:'demonstration_budget_results',visual:'visual_ablation_results',resistance:'resistance'};try{await Promise.all(Object.entries(files).map(async([k,f])=>{const r=await fetch(`${asset}data/${f}.json`);if(!r.ok)throw Error(f);data[k]=await r.json();}));renderStages();renderRefinement();renderBudget();renderVisual();updateForce();updateVision();$('resistance-table').innerHTML=table(['Task','0 N','5 N','10 N','20 N'],tasks.map((t,i)=>[t,...[0,5,10,20].map(n=>f2(data.resistance.find(r=>r.task===taskIds[i]&&r.force_n===n).position_error_cm))]));
+ $('stage-task').onchange=renderStages;$('visual-task').onchange=renderVisual;$('budget-source').onchange=()=>{options('budget-task',data.budgets[$('budget-source').value].tasks);renderBudget();};$('budget-task').onchange=renderBudget;['force-task','force-level'].forEach(id=>$(id).onchange=updateForce);['vision-task','vision-condition'].forEach(id=>$(id).onchange=updateVision);
+ }catch(e){for(const id of ['stage-table','refinement-table','budget-table','visual-table','resistance-table'])$(id).innerHTML='<p>Results could not load. Please reload this page or consult the <a href="assets/rebuttal/revised-paper.pdf">revised paper</a>.</p>';console.error('Evidence data loading failed',e);}}
+init();

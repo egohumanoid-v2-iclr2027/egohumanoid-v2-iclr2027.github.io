@@ -1,0 +1,259 @@
+{
+  "unit": "percent_of_all_trials",
+  "condition": "H+K+Ds (MLP)",
+  "cases": [
+    {
+      "task": "Close Laptop",
+      "success": 40,
+      "stages": [
+        35,
+        10,
+        15
+      ],
+      "causes": [
+        [
+          "Policy stall",
+          15
+        ],
+        [
+          "Hand too low",
+          25
+        ],
+        [
+          "Short reach",
+          5
+        ],
+        [
+          "Early retraction",
+          10
+        ],
+        [
+          "Laptop sliding",
+          5
+        ]
+      ],
+      "links": [
+        [
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          1,
+          25
+        ],
+        [
+          0,
+          2,
+          5
+        ],
+        [
+          1,
+          0,
+          10
+        ],
+        [
+          2,
+          3,
+          10
+        ],
+        [
+          2,
+          4,
+          5
+        ]
+      ],
+      "stage_labels": [
+        "Hand positioning failed",
+        "No effective press",
+        "Incomplete closure"
+      ]
+    },
+    {
+      "task": "Open Fridge",
+      "success": 30,
+      "stages": [
+        55,
+        5,
+        10
+      ],
+      "causes": [
+        [
+          "Heading drift",
+          10
+        ],
+        [
+          "Short arm reach",
+          25
+        ],
+        [
+          "Short step",
+          20
+        ],
+        [
+          "Late finger closure",
+          5
+        ],
+        [
+          "Policy stall",
+          5
+        ],
+        [
+          "Balance loss",
+          5
+        ]
+      ],
+      "links": [
+        [
+          0,
+          0,
+          10
+        ],
+        [
+          0,
+          1,
+          25
+        ],
+        [
+          0,
+          2,
+          20
+        ],
+        [
+          1,
+          3,
+          5
+        ],
+        [
+          2,
+          4,
+          5
+        ],
+        [
+          2,
+          5,
+          5
+        ]
+      ],
+      "stage_labels": [
+        "Door gap not reached",
+        "Hooking failed",
+        "Door not opened"
+      ]
+    },
+    {
+      "task": "Pull Curtain",
+      "success": 35,
+      "stages": [
+        35,
+        5,
+        25
+      ],
+      "causes": [
+        [
+          "Hand misalignment",
+          10
+        ],
+        [
+          "Late finger closure",
+          25
+        ],
+        [
+          "Policy stall",
+          5
+        ],
+        [
+          "Early stop",
+          20
+        ],
+        [
+          "Turn timing error",
+          5
+        ]
+      ],
+      "links": [
+        [
+          0,
+          0,
+          10
+        ],
+        [
+          0,
+          1,
+          25
+        ],
+        [
+          1,
+          2,
+          5
+        ],
+        [
+          2,
+          3,
+          20
+        ],
+        [
+          2,
+          4,
+          5
+        ]
+      ],
+      "stage_labels": [
+        "Grasping failed",
+        "No effective pull",
+        "Insufficient opening"
+      ]
+    },
+    {
+      "task": "Close Drawer",
+      "success": 30,
+      "stages": [
+        20,
+        5,
+        45
+      ],
+      "causes": [
+        [
+          "Insufficient foot lift",
+          20
+        ],
+        [
+          "Balance loss",
+          20
+        ],
+        [
+          "Early foot lowering",
+          30
+        ]
+      ],
+      "links": [
+        [
+          0,
+          0,
+          20
+        ],
+        [
+          1,
+          1,
+          5
+        ],
+        [
+          2,
+          1,
+          15
+        ],
+        [
+          2,
+          2,
+          30
+        ]
+      ],
+      "stage_labels": [
+        "Foot positioning failed",
+        "No effective push",
+        "Incomplete closure"
+      ]
+    }
+  ]
+}
