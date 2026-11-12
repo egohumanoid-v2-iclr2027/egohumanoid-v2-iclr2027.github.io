@@ -23,7 +23,7 @@ for page in pdf:
   page.get_pixmap(matrix=pymupdf.Matrix(1.7,1.7)).save(out/'figures/optimization.png');break
 shutil.copyfile(a.pdf,out/'revised-paper.pdf')
 rows=list(csv.DictReader((a.resistance/'summary.csv').open()))
-(out/'data/resistance.json').write_text(json.dumps([{k:(float(v) if k in ['force_n','position_error_cm','position_error_increase_vs_0N_cm'] else v) for k,v in row.items() if k in ['task','force_n','position_error_cm','position_error_increase_vs_0N_cm']} for row in rows],indent=2)+'\n')
+(out/'data/resistance.json').write_text(json.dumps([{k:((float(v) if v else None) if k in ['force_n','position_error_cm','orientation_error_deg','position_error_increase_vs_0N_cm'] else v) for k,v in row.items() if k in ['task','force_n','position_error_cm','orientation_error_deg','position_error_increase_vs_0N_cm']} for row in rows],indent=2)+'\n')
 shutil.copyfile(a.resistance/'summary.csv',out/'data/resistance.csv')
 for task in tasks:
  (out/'videos/resistance'/task).mkdir(exist_ok=True)
