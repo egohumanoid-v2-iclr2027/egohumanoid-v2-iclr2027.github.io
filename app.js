@@ -25,7 +25,7 @@ function renderQuestions(){
 function openQuestion(hash){
  const aliases={'msnh-impl':'msnh-w4','msnh-comparison':'msnh-w1','vfta-suggestion':'vfta-s1'};
  hash=aliases[hash]||hash;
- for(const r of questions){const q=r.groups.flatMap(g=>g.items).find(q=>`${r.reviewer.toLowerCase()}-${q[0]}`===hash);if(q){const target=(r.reviewer==='mSNH'&&['q4','w1'].includes(q[0]))?document.querySelector('#scope details'):$(q[2]);document.querySelectorAll('[data-question]').forEach(a=>{const selected=a.dataset.question===hash;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});if(target.tagName==='DETAILS')target.open=true;target.scrollIntoView({block:'start'});return true;}}return false;
+ for(const r of questions){const q=r.groups.flatMap(g=>g.items).find(q=>`${r.reviewer.toLowerCase()}-${q[0]}`===hash);if(q){const target=$(q[2]);document.querySelectorAll('[data-question]').forEach(a=>{const selected=a.dataset.question===hash;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});if(target.tagName==='DETAILS')target.open=true;target.scrollIntoView({block:'start'});return true;}}return false;
 }
 function table(headers,rows,{highlight=-1,success=-1}={}){
  return `<div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable results table"><table><thead><tr>${headers.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr${i===highlight?' class="highlight"':''}>${r.map((c,j)=>j===0?`<th scope="row">${c}</th>`:`<td${j===success?' class="success"':''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
