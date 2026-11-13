@@ -6,7 +6,7 @@ const asset = 'assets/rebuttal/';
 const questions = [
  {reviewer:'mSNH',groups:[
   {label:'Critical weaknesses',items:[['w1','Prior-work comparisons','whole-body-transfer'],['w2','D & response model benefit','d-refinement'],['w3','Success & generalization','completion'],['w4','Implementation & cost','implementation']]},
-  {label:'Questions',items:[['q1','Success & failure analysis','completion'],['q2','D contribution details','d-refinement'],['q3','Interaction & contact','resistance'],['q4','Zero-shot scope','visual-alignment']]}
+  {label:'Questions',items:[['q1','Success & failure analysis','completion'],['q2','D contribution details','d-refinement'],['q3','Interaction & contact','resistance'],['q4','Zero-shot scope','study-scope']]}
  ]},
  {reviewer:'vfta',groups:[
   {label:'Critical weaknesses',items:[['w1','Contact & task completion','completion'],['w2','Data efficiency & cost','data-efficiency']]},
@@ -20,6 +20,11 @@ const questions = [
  ]}
 ];
 const comparisonTopics = {
+ 'msnh-w3': [
+  ['completion','Full-task success'],
+  ['evaluation-protocol','Error bars & training seed'],
+  ['study-scope','Study scope & visual feedback']
+ ],
  'msnh-w1': [
   ['whole-body-transfer','vs. EgoHumanoid: Algorithm'],
   ['capture-setting','vs. HuMI/BifrostUMI: Hardware'],
