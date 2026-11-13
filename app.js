@@ -147,7 +147,23 @@ function initStatic(){renderQuestions();initQuestionNavigation();renderIK();$('i
  $('menu-toggle').onclick=()=>{closeQuestionPopup();const open=$('topic-nav').classList.toggle('open');$('menu-toggle').setAttribute('aria-expanded',String(open));};
  for(const p of ['force','vision']){$(p+'-play').onclick=()=>playPair(p);$(p+'-reset').onclick=()=>resetPair(p);}
 }
-async function init(){initStatic();const files={stages:'subtask_results',budgets:'demonstration_budget_results',visual:'visual_ablation_results',resistance:'resistance'};try{await Promise.all(Object.entries(files).map(async([k,f])=>{const r=await fetch(`${asset}data/${f}.json?v=orientation`);if(!r.ok)throw Error(f);data[k]=await r.json();}));renderStages();renderRefinement();renderBudget();renderVisual();updateForce();updateVision();renderResistance();$('force-table-range').onchange=renderResistance;
+async function init(){
+ const initialHash=location.hash;
+ let userInteracted=false;
+ const cancelInitialScroll=()=>{userInteracted=true;};
+ const interactionEvents=['wheel','touchstart','pointerdown','keydown'];
+ if(initialHash)interactionEvents.forEach(type=>window.addEventListener(type,cancelInitialScroll,{passive:true}));
+ initStatic();const files={stages:'subtask_results',budgets:'demonstration_budget_results',visual:'visual_ablation_results',resistance:'resistance'};try{await Promise.all(Object.entries(files).map(async([k,f])=>{const r=await fetch(`${asset}data/${f}.json?v=orientation`);if(!r.ok)throw Error(f);data[k]=await r.json();}));renderStages();renderRefinement();renderBudget();renderVisual();updateForce();updateVision();renderResistance();$('force-table-range').onchange=renderResistance;
  $('stage-task').onchange=renderStages;$('visual-task').onchange=renderVisual;$('budget-source').onchange=()=>{options('budget-task',data.budgets[$('budget-source').value].tasks);renderBudget();};$('budget-task').onchange=renderBudget;['force-task','force-level'].forEach(id=>$(id).onchange=updateForce);['vision-task','vision-condition'].forEach(id=>$(id).onchange=updateVision);
- }catch(e){for(const id of ['stage-table','refinement-table','budget-table','visual-table','resistance-table','orientation-table'])$(id).innerHTML='<p>Results could not load. Please reload this page or consult the <a href="assets/rebuttal/revised-paper.pdf">revised paper</a>.</p>';console.error('Evidence data loading failed',e);}}
+ }catch(e){for(const id of ['stage-table','refinement-table','budget-table','visual-table','resistance-table','orientation-table'])$(id).innerHTML='<p>Results could not load. Please reload this page or consult the <a href="assets/rebuttal/revised-paper.pdf">revised paper</a>.</p>';console.error('Evidence data loading failed',e);}
+ if(initialHash){
+  await document.fonts.ready;
+  await new Promise(requestAnimationFrame);
+  interactionEvents.forEach(type=>window.removeEventListener(type,cancelInitialScroll));
+  if(!userInteracted&&location.hash===initialHash){
+   const id=initialHash.slice(1);
+   if(!openQuestion(id))$(id)?.scrollIntoView({block:'start'});
+  }
+ }
+}
 init();
