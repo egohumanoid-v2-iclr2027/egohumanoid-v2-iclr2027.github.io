@@ -26,6 +26,7 @@ const comparisonTopics = {
   ['general-controller','vs. HuMI/BifrostUMI: Algorithm']
  ]
 };
+const questionTopicLabels = {'msnh-q2': {'refinement': 'D & response model benefit', 'selection-cost': 'D selection & processing cost'}};
 const questionTargets = new Map();
 let activeQuestionPopup = null;
 let popupCloseTimer;
@@ -35,7 +36,7 @@ function renderQuestions(){
   const key=`${r.reviewer.toLowerCase()}-${q[0]}`;
   const matching=sections.filter(section=>[...section.querySelectorAll('.reviewer-note li')].some(note=>note.querySelector('strong').textContent===`Reviewer ${r.reviewer}:`&&note.querySelector('span').textContent.toLowerCase().split(',').map(s=>s.trim()).includes(q[0]))).map(section=>section.id);
   const targets=comparisonTopics[key]?.map(([id])=>id)||[q[2],...matching.filter(id=>id!==q[2])];
-  const topicLabel=id=>comparisonTopics[key]?.find(topic=>topic[0]===id)?.[1]||$(id).querySelector('h2').textContent;
+  const topicLabel=id=>questionTopicLabels[key]?.[id]||comparisonTopics[key]?.find(topic=>topic[0]===id)?.[1]||$(id).querySelector('h2').textContent;
   questionTargets.set(key,targets);
   const label=`<span class="qid">${q[0].toUpperCase()}</span><span>${q[1]}</span>`;
   if(targets.length===1)return `<a class="question-link" href="#${targets[0]}" data-question="${key}">${label}</a>`;
