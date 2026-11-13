@@ -136,8 +136,6 @@ function resetPair(prefix){['baseline','treatment'].forEach(x=>{const v=$(prefix
 const stageText=[['The right hand reaches a pressing position above the laptop lid.','The right hand applies an effective downward press.','The laptop lid is fully closed.'],['The left hand reaches the vicinity of the door gap.','The left hand hooks into the door gap.','The refrigerator door opens.'],['The right hand grasps the curtain.','The right hand pulls and moves the curtain.','The curtain is pulled open by one meter.'],['The right foot is raised and the toe is positioned in front of the drawer.','The right foot pushes the drawer inward.','The drawer is fully closed.']];
 function renderIK(){
  const variant=$('ik-variant').value;
- const descriptions={a:'Hand tasks: IK controls arms and waist; SONIC controls legs. Drawer: IK controls both legs.',b:'Variant A with SONIC’s balance contribution added to the IK-controlled joints.',c:'Hand tasks: IK controls only the arms. Drawer: IK controls only the operating right leg. SONIC controls the remaining joints.'};
- $('ik-description').textContent=descriptions[variant];
  document.querySelectorAll('#ik-grid video').forEach(v=>v.pause());
  $('ik-grid').innerHTML=tasks.map((t,i)=>{const slug=['laptop','fridge','curtain','drawer'][i];return `<figure><video controls playsinline preload="none" poster="assets/images/ik-${variant}-${slug}.jpg?v=clean" src="assets/videos/ik-${variant}-${slug}.mp4?v=clean" aria-label="Online IK variant ${variant.toUpperCase()}: ${t}"></video><figcaption>${t}</figcaption></figure>`;}).join('');
 }
