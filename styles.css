@@ -38,8 +38,8 @@
 .paper-references{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:12px}.paper-references .source{margin:0;white-space:nowrap}
 
 /* Offline-control evidence and visual-alignment figures. */
-#online-ik .table-heading select{max-width:100%}#online-ik>p.media-note{max-width:none;text-align:left;font-size:14px}.media-note{color:var(--color-secondary);font-size:14px;line-height:1.65;margin:16px 0}.setting-comparison{margin-top:28px}.comparison-sources{font-size:14px}.comparison-sources a{color:var(--color-accent)}.alignment-figures{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:28px;align-items:center;max-width:960px;margin:24px auto 32px}.alignment-figures figure{margin:0;min-width:0}.alignment-figures img{display:block;width:100%;height:auto}.alignment-figures figcaption{font-size:14px;line-height:1.6;margin-top:12px;color:var(--color-secondary)}
-@media(max-width:760px){.alignment-figures{grid-template-columns:1fr;max-width:520px}.alignment-figures figure:first-child{max-width:420px;margin:auto}#online-ik .table-heading{align-items:flex-start;flex-direction:column}#online-ik .table-heading label{width:100%}#online-ik .table-heading select{min-width:0;max-width:80%}}
+#whole-body-transfer .table-heading select{max-width:100%}#whole-body-transfer>p.media-note{max-width:none;text-align:left;font-size:14px}.media-note{color:var(--color-secondary);font-size:14px;line-height:1.65;margin:16px 0}.setting-comparison{margin-top:28px}.comparison-sources{font-size:14px}.comparison-sources a{color:var(--color-accent)}.alignment-figures{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:28px;align-items:center;max-width:960px;margin:24px auto 32px}.alignment-figures figure{margin:0;min-width:0}.alignment-figures img{display:block;width:100%;height:auto}.alignment-figures figcaption{font-size:14px;line-height:1.6;margin-top:12px;color:var(--color-secondary)}
+@media(max-width:760px){.alignment-figures{grid-template-columns:1fr;max-width:520px}.alignment-figures figure:first-child{max-width:420px;margin:auto}#whole-body-transfer .table-heading{align-items:flex-start;flex-direction:column}#whole-body-transfer .table-heading label{width:100%}#whole-body-transfer .table-heading select{min-width:0;max-width:80%}}
 
 #ik-grid video{aspect-ratio:16/7;height:auto}
 
@@ -51,7 +51,7 @@ button.question-link{width:100%;border:0;background:transparent;text-align:left;
 
 #general-controller>.related-evidence,#general-controller>.comparison-sources{text-align:left;max-width:none;font-size:14px;margin:12px 0 0}
 
-#online-ik .visual-transfer{margin:28px 0 0}
+#whole-body-transfer .visual-transfer{margin:28px 0 0}
 
 .comparison-outline .comparison-group{margin-bottom:20px}.comparison-outline h3{font-size:18px;margin:0 0 10px;color:var(--color-section-title)}.comparison-outline .comparison-group p{padding-left:16px}
 

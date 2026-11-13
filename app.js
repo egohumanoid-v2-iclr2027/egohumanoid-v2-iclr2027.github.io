@@ -5,8 +5,8 @@ const taskIds = ['close_laptop','open_fridge','pull_curtain','close_drawer'];
 const asset = 'assets/rebuttal/';
 const questions = [
  {reviewer:'mSNH',groups:[
-  {label:'Critical weaknesses',items:[['w1','Prior-work comparisons','online-ik'],['w2','D & response model benefit','refinement'],['w3','Success & generalization','completion'],['w4','Implementation & cost','implementation']]},
-  {label:'Questions',items:[['q1','Success & failure analysis','completion'],['q2','D contribution details','refinement'],['q3','Interaction & contact','resistance'],['q4','Zero-shot scope','scope']]}
+  {label:'Critical weaknesses',items:[['w1','Prior-work comparisons','whole-body-transfer'],['w2','D & response model benefit','d-refinement'],['w3','Success & generalization','completion'],['w4','Implementation & cost','implementation']]},
+  {label:'Questions',items:[['q1','Success & failure analysis','completion'],['q2','D contribution details','d-refinement'],['q3','Interaction & contact','resistance'],['q4','Zero-shot scope','visual-alignment']]}
  ]},
  {reviewer:'vfta',groups:[
   {label:'Critical weaknesses',items:[['w1','Contact & task completion','completion'],['w2','Data efficiency & cost','data-efficiency']]},
@@ -14,19 +14,19 @@ const questions = [
   {label:'Suggestion',items:[['s1','Contact-force proxies','resistance']]}
  ]},
  {reviewer:'fQQ5',groups:[
-  {label:'Critical weaknesses',items:[['w1','Image–action consistency','scope'],['w2','Hardware benefit','refinement']]},
+  {label:'Critical weaknesses',items:[['w1','Image–action consistency','visual-alignment'],['w2','Hardware benefit','d-refinement']]},
   {label:'Minor concerns',items:[['m1','Visual feedback','visual-feedback'],['m2','Overall processing cost','selection-cost']]},
-  {label:'Questions',items:[['q1','Image–action mismatch','scope'],['q2','Gain reliability & success','refinement'],['q3','Fixed-image test','visual-feedback'],['q4','Overall collection cost','selection-cost']]}
+  {label:'Questions',items:[['q1','Image–action mismatch','visual-alignment'],['q2','Gain reliability & success','d-refinement'],['q3','Fixed-image test','visual-feedback'],['q4','Overall collection cost','selection-cost']]}
  ]}
 ];
 const comparisonTopics = {
  'msnh-w1': [
-  ['online-ik','vs. EgoHumanoid: Algorithm'],
+  ['whole-body-transfer','vs. EgoHumanoid: Algorithm'],
   ['capture-setting','vs. HuMI/BifrostUMI: Hardware'],
   ['general-controller','vs. HuMI/BifrostUMI: Algorithm']
  ]
 };
-const questionTopicLabels = {'msnh-q2': {'refinement': 'D & response model benefit', 'selection-cost': 'D selection statistics'}};
+const questionTopicLabels = {'msnh-q2': {'d-refinement': 'D & response model benefit', 'selection-cost': 'D selection statistics'}};
 const questionTargets = new Map();
 let activeQuestionPopup = null;
 let popupCloseTimer;
@@ -81,6 +81,11 @@ function openQuestion(hash,sectionId){
  document.querySelectorAll('[data-question]').forEach(a=>{const selected=a.dataset.question===hash;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
  if(target.tagName==='DETAILS')target.open=true;
  target.scrollIntoView({block:'start'});return true;
+}
+const sectionAliases = {'online-ik':'whole-body-transfer','scope':'visual-alignment','refinement':'d-refinement','hardware':'real-world-demos'};
+function openHash(hash){
+ if(!hash||openQuestion(hash))return;
+ $(sectionAliases[hash]||hash)?.scrollIntoView({block:'start'});
 }
 function initQuestionNavigation(){
  document.querySelectorAll('.question-item').forEach(item=>{
@@ -143,7 +148,7 @@ function renderIK(){
 function initStatic(){renderQuestions();initQuestionNavigation();renderIK();$('ik-variant').onchange=renderIK;$('stage-definitions').innerHTML=`<div class="definitions">${tasks.map((t,i)=>`<article><h3>${t}</h3><ol>${stageText[i].map(s=>`<li>${s}</li>`).join('')}</ol></article>`).join('')}</div>`;['stage-task','force-task','vision-task','budget-task','visual-task'].forEach(x=>options(x));$('force-level').innerHTML=Array.from({length:21},(_,i)=>`<option value="${i}"${i===20?' selected':''}>${i} N</option>`).join('');
  const costs=[['Close Laptop',312,'0.96','0.00','0.00','99.0','6.8','0.67'],['Open Fridge',228,'3.07','0.00','0.00','96.9','5.2','0.44'],['Pull Curtain',251,'0.00','0.00','0.00','100','7.1','0.51'],['Close Drawer',270,'3.33','4.44','0.00','92.2','3.3','0.38'],['Average','265.25','1.84','1.11','0.00','97.1','5.60','0.50']];$('selection-table').innerHTML=table(['Task','Demos','Reject (%)','H (%)','K (%)','D (%)','Mean D round','Time (h)'],costs,{highlight:4});
  $('hardware-grid').innerHTML=tasks.map((t,i)=>{const slug=['laptop','fridge','curtain','drawer'][i];return `<figure><video controls playsinline preload="none" poster="assets/images/deployment-${slug}.jpg" src="assets/videos/deployment-${slug}.mp4" aria-label="Real-robot execution: ${t}"></video><figcaption>${t}</figcaption></figure>`;}).join('');
- window.addEventListener('hashchange',()=>openQuestion(location.hash.slice(1)));requestAnimationFrame(()=>openQuestion(location.hash.slice(1)));
+ window.addEventListener('hashchange',()=>openHash(location.hash.slice(1)));requestAnimationFrame(()=>openHash(location.hash.slice(1)));
  $('menu-toggle').onclick=()=>{closeQuestionPopup();const open=$('topic-nav').classList.toggle('open');$('menu-toggle').setAttribute('aria-expanded',String(open));};
  for(const p of ['force','vision']){$(p+'-play').onclick=()=>playPair(p);$(p+'-reset').onclick=()=>resetPair(p);}
 }
@@ -162,7 +167,7 @@ async function init(){
   interactionEvents.forEach(type=>window.removeEventListener(type,cancelInitialScroll));
   if(!userInteracted&&location.hash===initialHash){
    const id=initialHash.slice(1);
-   if(!openQuestion(id))$(id)?.scrollIntoView({block:'start'});
+   openHash(id);
   }
  }
 }
