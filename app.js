@@ -162,15 +162,48 @@ function initStatic(){renderQuestions();initQuestionNavigation();renderIK();$('i
  $('menu-toggle').onclick=()=>{closeQuestionPopup();const open=$('topic-nav').classList.toggle('open');$('menu-toggle').setAttribute('aria-expanded',String(open));};
  for(const p of ['force','vision']){$(p+'-play').onclick=()=>playPair(p);$(p+'-reset').onclick=()=>resetPair(p);}
 }
+async function loadResults(file){
+ for(let attempt=0;attempt<2;attempt++){
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),10000);
+  try{
+   const response=await fetch(`${asset}data/${file}.json?v=robot-laptop-stages-20261114`,{signal:controller.signal,cache:attempt?'reload':'default'});
+   if(!response.ok)throw Error(`${file}: HTTP ${response.status}`);
+   return await response.json();
+  }catch(error){if(attempt===1)throw error;}
+  finally{clearTimeout(timeout);}
+ }
+}
 async function init(){
  const initialHash=location.hash;
  let userInteracted=false;
  const cancelInitialScroll=()=>{userInteracted=true;};
  const interactionEvents=['wheel','touchstart','pointerdown','keydown'];
  if(initialHash)interactionEvents.forEach(type=>window.addEventListener(type,cancelInitialScroll,{passive:true}));
- initStatic();const files={stages:'subtask_results',budgets:'demonstration_budget_results',visual:'visual_ablation_results',resistance:'resistance'};try{await Promise.all(Object.entries(files).map(async([k,f])=>{const r=await fetch(`${asset}data/${f}.json?v=robot-laptop-stages-20261114`);if(!r.ok)throw Error(f);data[k]=await r.json();}));renderStages();renderRefinement();renderBudget();renderVisual();updateForce();updateVision();renderResistance();$('force-table-range').onchange=renderResistance;
- $('stage-task').onchange=renderStages;$('visual-task').onchange=renderVisual;$('budget-source').onchange=()=>{options('budget-task',data.budgets[$('budget-source').value].tasks);renderBudget();};$('budget-task').onchange=renderBudget;['force-task','force-level'].forEach(id=>$(id).onchange=updateForce);['vision-task','vision-condition'].forEach(id=>$(id).onchange=updateVision);
- }catch(e){for(const id of ['stage-table','refinement-table','budget-table','visual-table','resistance-table','orientation-table'])$(id).innerHTML='<p>Results could not load. Please reload this page or consult the <a href="assets/rebuttal/revised-paper.pdf">revised paper</a>.</p>';console.error('Evidence data loading failed',e);}
+ initStatic();
+ updateVision();
+ ['vision-task','vision-condition'].forEach(id=>$(id).onchange=updateVision);
+ const groups=[
+  {key:'stages',file:'subtask_results',targets:['stage-table','refinement-table'],render(){renderStages();renderRefinement();$('stage-task').onchange=renderStages;}},
+  {key:'budgets',file:'demonstration_budget_results',targets:['budget-table'],render(){renderBudget();$('budget-source').onchange=()=>{options('budget-task',data.budgets[$('budget-source').value].tasks);renderBudget();};$('budget-task').onchange=renderBudget;}},
+  {key:'visual',file:'visual_ablation_results',targets:['visual-table'],render(){renderVisual();$('visual-task').onchange=renderVisual;}},
+  {key:'resistance',file:'resistance',targets:['resistance-table','orientation-table'],render(){updateForce();renderResistance();$('force-table-range').onchange=renderResistance;['force-task','force-level'].forEach(id=>$(id).onchange=updateForce);}}
+ ];
+ async function loadGroup(group){
+  group.targets.forEach(id=>$(id).textContent='Loading results…');
+  try{
+   data[group.key]=await loadResults(group.file);
+   group.render();
+  }catch(error){
+   console.error(`Could not load ${group.file}`,error);
+   group.targets.forEach(id=>{
+    $(id).innerHTML='<p>Results could not load. <button type="button" class="button">Retry</button> or consult the <a href="assets/rebuttal/revised-paper.pdf">revised paper</a>.</p>';
+    $(id).querySelector('button').onclick=()=>loadGroup(group);
+   });
+  }
+ }
+ await Promise.all(groups.map(loadGroup));
+
  if(initialHash){
   await document.fonts.ready;
   await new Promise(requestAnimationFrame);
