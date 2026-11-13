@@ -16,7 +16,7 @@
     "S2_percent",
     "S3_percent",
     "score_percent",
-    "sd_percentage_points"
+    "batch_sd_percentage_points"
   ],
   "results": [
     [
@@ -111,23 +111,23 @@
     ],
     [
       [
-        70,
-        65,
-        35,
+        75,
+        75,
+        20,
         56.67,
         3.33
       ],
       [
+        75,
         70,
-        70,
-        35,
+        30,
         58.33,
         1.67
       ],
       [
-        65,
-        65,
-        35,
+        70,
+        70,
+        25,
         55,
         1.67
       ],
@@ -139,5 +139,7 @@
         1.67
       ]
     ]
-  ]
+  ],
+  "evaluation_batches": null,
+  "trials_per_batch": null
 }
