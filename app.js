@@ -26,7 +26,7 @@ const comparisonTopics = {
   ['general-controller','vs. HuMI/BifrostUMI: Algorithm']
  ]
 };
-const questionTopicLabels = {'msnh-q2': {'refinement': 'D & response model benefit', 'selection-cost': 'D selection & processing cost'}};
+const questionTopicLabels = {'msnh-q2': {'refinement': 'D & response model benefit', 'selection-cost': 'D selection statistics'}};
 const questionTargets = new Map();
 let activeQuestionPopup = null;
 let popupCloseTimer;
