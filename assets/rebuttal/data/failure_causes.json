@@ -4,20 +4,20 @@
   "cases": [
     {
       "task": "Close Laptop",
-      "success": 40,
+      "success": 45,
       "stages": [
-        35,
-        10,
-        15
+        40,
+        5,
+        10
       ],
       "causes": [
         [
           "Policy stall",
-          15
+          10
         ],
         [
           "Hand too low",
-          25
+          30
         ],
         [
           "Short reach",
@@ -25,7 +25,7 @@
         ],
         [
           "Early retraction",
-          10
+          5
         ],
         [
           "Laptop sliding",
@@ -41,7 +41,7 @@
         [
           0,
           1,
-          25
+          30
         ],
         [
           0,
@@ -51,12 +51,12 @@
         [
           1,
           0,
-          10
+          5
         ],
         [
           2,
           3,
-          10
+          5
         ],
         [
           2,
@@ -65,18 +65,18 @@
         ]
       ],
       "stage_labels": [
-        "Hand positioning failed",
+        "Hand not positioned",
         "No effective press",
         "Incomplete closure"
       ]
     },
     {
       "task": "Open Fridge",
-      "success": 30,
+      "success": 35,
       "stages": [
         55,
-        5,
-        10
+        10,
+        0
       ],
       "causes": [
         [
@@ -84,7 +84,7 @@
           10
         ],
         [
-          "Short arm reach",
+          "Short reach",
           25
         ],
         [
@@ -96,11 +96,7 @@
           5
         ],
         [
-          "Policy stall",
-          5
-        ],
-        [
-          "Balance loss",
+          "Hand misalignment",
           5
         ]
       ],
@@ -126,13 +122,8 @@
           5
         ],
         [
-          2,
+          1,
           4,
-          5
-        ],
-        [
-          2,
-          5,
           5
         ]
       ],
@@ -144,11 +135,11 @@
     },
     {
       "task": "Pull Curtain",
-      "success": 35,
+      "success": 30,
       "stages": [
-        35,
-        5,
-        25
+        30,
+        10,
+        30
       ],
       "causes": [
         [
@@ -157,15 +148,15 @@
         ],
         [
           "Late finger closure",
-          25
+          20
         ],
         [
           "Policy stall",
-          5
+          10
         ],
         [
           "Early stop",
-          20
+          25
         ],
         [
           "Turn timing error",
@@ -181,17 +172,17 @@
         [
           0,
           1,
-          25
+          20
         ],
         [
           1,
           2,
-          5
+          10
         ],
         [
           2,
           3,
-          20
+          25
         ],
         [
           2,
@@ -202,21 +193,21 @@
       "stage_labels": [
         "Grasping failed",
         "No effective pull",
-        "Insufficient opening"
+        "Incomplete opening"
       ]
     },
     {
       "task": "Close Drawer",
-      "success": 30,
+      "success": 40,
       "stages": [
-        20,
+        25,
         5,
-        45
+        30
       ],
       "causes": [
         [
           "Insufficient foot lift",
-          20
+          25
         ],
         [
           "Balance loss",
@@ -224,14 +215,14 @@
         ],
         [
           "Early foot lowering",
-          30
+          15
         ]
       ],
       "links": [
         [
           0,
           0,
-          20
+          25
         ],
         [
           1,
@@ -246,11 +237,11 @@
         [
           2,
           2,
-          30
+          15
         ]
       ],
       "stage_labels": [
-        "Foot positioning failed",
+        "Foot not positioned",
         "No effective push",
         "Incomplete closure"
       ]
