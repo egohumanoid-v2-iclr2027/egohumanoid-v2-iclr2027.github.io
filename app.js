@@ -5,7 +5,7 @@ const taskIds = ['close_laptop','open_fridge','pull_curtain','close_drawer'];
 const asset = 'assets/rebuttal/';
 const questions = [
  {reviewer:'mSNH',groups:[
-  {label:'Critical weaknesses',items:[['w1','Prior-work comparisons','online-ik'],['w2','Refinement contribution','refinement'],['w3','Success & generalization','completion'],['w4','Implementation & cost','implementation']]},
+  {label:'Critical weaknesses',items:[['w1','Prior-work comparisons','capture-setting'],['w2','Refinement contribution','refinement'],['w3','Success & generalization','completion'],['w4','Implementation & cost','implementation']]},
   {label:'Questions',items:[['q1','Success & failure analysis','completion'],['q2','Refinement & selection','refinement'],['q3','Interaction & contact','resistance'],['q4','Zero-shot scope','scope']]}
  ]},
  {reviewer:'vfta',groups:[
@@ -19,13 +19,93 @@ const questions = [
   {label:'Questions',items:[['q1','Image–action mismatch','scope'],['q2','Gain reliability & success','refinement'],['q3','Fixed-image test','visual-feedback'],['q4','Overall collection cost','selection-cost']]}
  ]}
 ];
+const questionTargets = new Map();
+let activeQuestionPopup = null;
+let popupCloseTimer;
 function renderQuestions(){
- $('reviewer-index').innerHTML=questions.map(r=>`<div class="reviewer-column"><h2>Reviewer ${r.reviewer}</h2>${r.groups.map(g=>`<div class="reviewer-group"><h3>${g.label}</h3>${g.items.map(q=>`<a class="question-link" href="#${q[2]}" data-question="${r.reviewer.toLowerCase()}-${q[0]}"><span class="qid">${q[0].toUpperCase()}</span>${q[1]}</a>`).join('')}</div>`).join('')}</div>`).join('');
+ const sections=[...document.querySelectorAll('.evidence-section')];
+ $('reviewer-index').innerHTML=questions.map(r=>`<div class="reviewer-column"><h2>Reviewer ${r.reviewer}</h2>${r.groups.map(g=>`<div class="reviewer-group"><h3>${g.label}</h3>${g.items.map(q=>{
+  const key=`${r.reviewer.toLowerCase()}-${q[0]}`;
+  const matching=sections.filter(section=>[...section.querySelectorAll('.reviewer-note li')].some(note=>note.querySelector('strong').textContent===`Reviewer ${r.reviewer}:`&&note.querySelector('span').textContent.toLowerCase().split(',').map(s=>s.trim()).includes(q[0]))).map(section=>section.id);
+  const targets=[q[2],...matching.filter(id=>id!==q[2])];
+  questionTargets.set(key,targets);
+  const label=`<span class="qid">${q[0].toUpperCase()}</span><span>${q[1]}</span>`;
+  if(targets.length===1)return `<a class="question-link" href="#${targets[0]}" data-question="${key}">${label}</a>`;
+  return `<div class="question-item"><button type="button" class="question-link" data-question="${key}" aria-expanded="false" aria-controls="topics-${key}" aria-haspopup="dialog">${label}<span class="question-chevron" aria-hidden="true">›</span></button><div class="question-popover" id="topics-${key}" popover="manual" role="dialog" aria-labelledby="topics-title-${key}"><p id="topics-title-${key}">Reviewer ${r.reviewer} · ${q[0].toUpperCase()}</p><ul>${targets.map(id=>`<li><a href="#${id}" data-section="${id}" data-owner="${key}">${$(id).querySelector('h2').textContent}</a></li>`).join('')}</ul></div></div>`;
+ }).join('')}</div>`).join('')}</div>`).join('');
 }
-function openQuestion(hash){
+function closeQuestionPopup(){
+ clearTimeout(popupCloseTimer);
+ if(!activeQuestionPopup)return;
+ activeQuestionPopup.popup.hidePopover();
+ activeQuestionPopup.trigger.setAttribute('aria-expanded','false');
+ activeQuestionPopup=null;
+}
+function positionQuestionPopup(){
+ if(!activeQuestionPopup)return;
+ const {trigger,popup}=activeQuestionPopup,anchor=trigger.getBoundingClientRect();
+ const width=popup.offsetWidth,height=popup.offsetHeight;
+ const mobile=matchMedia('(max-width:850px)').matches;
+ let left=mobile?anchor.left:anchor.right+10;
+ if(left+width>innerWidth-12)left=mobile?innerWidth-width-12:anchor.left-width-10;
+ left=Math.max(12,left);
+ const headerBottom=mobile?document.querySelector('.rail').getBoundingClientRect().top+$('menu-toggle').offsetHeight:document.querySelector('.masthead').getBoundingClientRect().bottom;
+ let top=mobile?anchor.bottom+6:anchor.top;
+ if(top+height>innerHeight-12)top=mobile?anchor.top-height-6:innerHeight-height-12;
+ top=Math.max(headerBottom+8,top);
+ popup.style.left=`${left}px`;popup.style.top=`${top}px`;
+}
+function showQuestionPopup(trigger){
+ clearTimeout(popupCloseTimer);
+ if(activeQuestionPopup?.trigger===trigger)return;
+ closeQuestionPopup();
+ const popup=$(trigger.getAttribute('aria-controls'));
+ activeQuestionPopup={trigger,popup};
+ popup.showPopover();trigger.setAttribute('aria-expanded','true');positionQuestionPopup();
+}
+function openQuestion(hash,sectionId){
  const aliases={'msnh-impl':'msnh-w4','msnh-comparison':'msnh-w1','vfta-suggestion':'vfta-s1'};
  hash=aliases[hash]||hash;
- for(const r of questions){const q=r.groups.flatMap(g=>g.items).find(q=>`${r.reviewer.toLowerCase()}-${q[0]}`===hash);if(q){const target=$(q[2]);document.querySelectorAll('[data-question]').forEach(a=>{const selected=a.dataset.question===hash;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});if(target.tagName==='DETAILS')target.open=true;target.scrollIntoView({block:'start'});return true;}}return false;
+ const targets=questionTargets.get(hash);
+ if(!targets)return false;
+ const target=$(targets.includes(sectionId)?sectionId:targets[0]);
+ document.querySelectorAll('[data-question]').forEach(a=>{const selected=a.dataset.question===hash;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
+ if(target.tagName==='DETAILS')target.open=true;
+ target.scrollIntoView({block:'start'});return true;
+}
+function initQuestionNavigation(){
+ document.querySelectorAll('.question-item').forEach(item=>{
+  const trigger=item.querySelector('.question-link');
+  item.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')showQuestionPopup(trigger);});
+  item.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')popupCloseTimer=setTimeout(closeQuestionPopup,180);});
+  item.addEventListener('focusout',e=>{if(!item.contains(e.relatedTarget))closeQuestionPopup();});
+  trigger.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();showQuestionPopup(trigger);activeQuestionPopup.popup.querySelector('a').focus();}});
+ });
+ document.addEventListener('click',e=>{
+  const targetLink=e.target.closest('[data-section]');
+  const trigger=e.target.closest('[data-question]');
+  if(targetLink){
+   e.preventDefault();const {owner,section}=targetLink.dataset;
+   closeQuestionPopup();$('topic-nav').classList.remove('open');$('menu-toggle').setAttribute('aria-expanded','false');
+   history.pushState(null,'','#'+section);openQuestion(owner,section);
+  }else if(trigger){
+   e.preventDefault();
+   if(trigger.hasAttribute('aria-controls')){showQuestionPopup(trigger);return;}
+   closeQuestionPopup();$('topic-nav').classList.remove('open');$('menu-toggle').setAttribute('aria-expanded','false');
+   history.pushState(null,'','#'+trigger.dataset.question);openQuestion(trigger.dataset.question);
+  }else if(activeQuestionPopup&&!activeQuestionPopup.popup.contains(e.target))closeQuestionPopup();
+ });
+ document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&activeQuestionPopup){const trigger=activeQuestionPopup.trigger;closeQuestionPopup();trigger.focus();}
+  if(e.key==='Tab'&&e.target.matches('.question-link[aria-controls]')&&!e.shiftKey)showQuestionPopup(e.target);
+ });
+ $('topic-nav').addEventListener('scroll',()=>{
+  if(!activeQuestionPopup)return;
+  const anchor=activeQuestionPopup.trigger.getBoundingClientRect(),nav=$('topic-nav').getBoundingClientRect();
+  if(anchor.bottom<nav.top||anchor.top>nav.bottom)closeQuestionPopup();else positionQuestionPopup();
+ });
+ window.addEventListener('scroll',closeQuestionPopup,{passive:true});
+ window.addEventListener('resize',closeQuestionPopup);
 }
 function table(headers,rows,{highlight=-1,success=-1}={}){
  return `<div class="table-wrap" tabindex="0" role="region" aria-label="Scrollable results table"><table><thead><tr>${headers.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr${i===highlight?' class="highlight"':''}>${r.map((c,j)=>j===0?`<th scope="row">${c}</th>`:`<td${j===success?' class="success"':''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
@@ -53,12 +133,11 @@ function renderIK(){
  document.querySelectorAll('#ik-grid video').forEach(v=>v.pause());
  $('ik-grid').innerHTML=tasks.map((t,i)=>{const slug=['laptop','fridge','curtain','drawer'][i];return `<figure><video controls playsinline preload="none" poster="assets/images/ik-${variant}-${slug}.jpg?v=clean" src="assets/videos/ik-${variant}-${slug}.mp4?v=clean" aria-label="Online IK variant ${variant.toUpperCase()}: ${t}"></video><figcaption>${t}</figcaption></figure>`;}).join('');
 }
-function initStatic(){renderQuestions();renderIK();$('ik-variant').onchange=renderIK;$('stage-definitions').innerHTML=`<div class="definitions">${tasks.map((t,i)=>`<article><h3>${t}</h3><ol>${stageText[i].map(s=>`<li>${s}</li>`).join('')}</ol></article>`).join('')}</div>`;['stage-task','force-task','vision-task','budget-task','visual-task'].forEach(x=>options(x));$('force-level').innerHTML=Array.from({length:21},(_,i)=>`<option value="${i}"${i===20?' selected':''}>${i} N</option>`).join('');
+function initStatic(){renderQuestions();initQuestionNavigation();renderIK();$('ik-variant').onchange=renderIK;$('stage-definitions').innerHTML=`<div class="definitions">${tasks.map((t,i)=>`<article><h3>${t}</h3><ol>${stageText[i].map(s=>`<li>${s}</li>`).join('')}</ol></article>`).join('')}</div>`;['stage-task','force-task','vision-task','budget-task','visual-task'].forEach(x=>options(x));$('force-level').innerHTML=Array.from({length:21},(_,i)=>`<option value="${i}"${i===20?' selected':''}>${i} N</option>`).join('');
  const costs=[['Close Laptop',312,'0.96','0.00','0.00','99.0','6.8','0.67'],['Open Fridge',228,'3.07','0.00','0.00','96.9','5.2','0.44'],['Pull Curtain',251,'0.00','0.00','0.00','100','7.1','0.51'],['Close Drawer',270,'3.33','4.44','0.00','92.2','3.3','0.38'],['Average','265.25','1.84','1.11','0.00','97.1','5.60','0.50']];$('selection-table').innerHTML=table(['Task','Demos','Reject (%)','H (%)','K (%)','D (%)','Mean D round','Time (h)'],costs,{highlight:4});
  $('hardware-grid').innerHTML=tasks.map((t,i)=>{const slug=['laptop','fridge','curtain','drawer'][i];return `<figure><video controls playsinline preload="none" poster="assets/images/deployment-${slug}.jpg" src="assets/videos/deployment-${slug}.mp4" aria-label="Real-robot execution: ${t}"></video><figcaption>${t}</figcaption></figure>`;}).join('');
- document.addEventListener('click',e=>{const link=e.target.closest('[data-question]');if(link){e.preventDefault();$('topic-nav').classList.remove('open');$('menu-toggle').setAttribute('aria-expanded','false');history.pushState(null,'','#'+link.dataset.question);openQuestion(link.dataset.question);}const nav=e.target.closest('#topic-nav a');if(nav){$('topic-nav').classList.remove('open');$('menu-toggle').setAttribute('aria-expanded','false');}});
  window.addEventListener('hashchange',()=>openQuestion(location.hash.slice(1)));requestAnimationFrame(()=>openQuestion(location.hash.slice(1)));
- $('menu-toggle').onclick=()=>{const open=$('topic-nav').classList.toggle('open');$('menu-toggle').setAttribute('aria-expanded',String(open));};
+ $('menu-toggle').onclick=()=>{closeQuestionPopup();const open=$('topic-nav').classList.toggle('open');$('menu-toggle').setAttribute('aria-expanded',String(open));};
  for(const p of ['force','vision']){$(p+'-play').onclick=()=>playPair(p);$(p+'-reset').onclick=()=>resetPair(p);}
 }
 async function init(){initStatic();const files={stages:'subtask_results',budgets:'demonstration_budget_results',visual:'visual_ablation_results',resistance:'resistance'};try{await Promise.all(Object.entries(files).map(async([k,f])=>{const r=await fetch(`${asset}data/${f}.json?v=orientation`);if(!r.ok)throw Error(f);data[k]=await r.json();}));renderStages();renderRefinement();renderBudget();renderVisual();updateForce();updateVision();renderResistance();$('force-table-range').onchange=renderResistance;
