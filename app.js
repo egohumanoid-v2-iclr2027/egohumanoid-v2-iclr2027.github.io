@@ -6,7 +6,7 @@ const asset = 'assets/rebuttal/';
 const questions = [
  {reviewer:'mSNH',groups:[
   {label:'Critical weaknesses',items:[['w1','Prior-work comparisons','online-ik'],['w2','D & response model benefit','refinement'],['w3','Success & generalization','completion'],['w4','Implementation & cost','implementation']]},
-  {label:'Questions',items:[['q1','Success & failure analysis','completion'],['q2','D variants & data selection','refinement'],['q3','Interaction & contact','resistance'],['q4','Zero-shot scope','scope']]}
+  {label:'Questions',items:[['q1','Success & failure analysis','completion'],['q2','D contribution details','refinement'],['q3','Interaction & contact','resistance'],['q4','Zero-shot scope','scope']]}
  ]},
  {reviewer:'vfta',groups:[
   {label:'Critical weaknesses',items:[['w1','Contact & task completion','completion'],['w2','Data efficiency & cost','data-efficiency']]},
