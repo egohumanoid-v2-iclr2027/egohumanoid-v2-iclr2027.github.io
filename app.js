@@ -23,7 +23,7 @@ const comparisonTopics = {
  'msnh-w3': [
   ['completion','Full-task success'],
   ['evaluation-protocol','Error bars & training seed'],
-  ['study-scope','Study scope & visual feedback']
+  ['study-scope','Study scope & visual generalization']
  ],
  'msnh-w1': [
   ['whole-body-transfer','vs. EgoHumanoid: Algorithm'],
