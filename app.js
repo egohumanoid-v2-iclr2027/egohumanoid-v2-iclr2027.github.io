@@ -21,7 +21,7 @@ const questions = [
 ];
 const comparisonTopics = {
  'msnh-q3': [
-  ['object-relative-placement','Local coordinates & object-relative placement'],
+  ['object-relative-placement','Local coordinates & pose generalization'],
   ['contact-stability','Contact-phase stability'],
   ['resistance','Task-object contacts & external resistance']
  ],
