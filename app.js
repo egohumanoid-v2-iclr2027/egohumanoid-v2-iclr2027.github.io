@@ -5,7 +5,7 @@ const taskIds = ['close_laptop','open_fridge','pull_curtain','close_drawer'];
 const asset = 'assets/rebuttal/';
 const questions = [
  {reviewer:'mSNH',groups:[
-  {label:'Critical weaknesses',items:[['w1','Prior-work comparisons','capture-setting'],['w2','Refinement contribution','refinement'],['w3','Success & generalization','completion'],['w4','Implementation & cost','implementation']]},
+  {label:'Critical weaknesses',items:[['w1','Prior-work comparisons','online-ik'],['w2','Refinement contribution','refinement'],['w3','Success & generalization','completion'],['w4','Implementation & cost','implementation']]},
   {label:'Questions',items:[['q1','Success & failure analysis','completion'],['q2','Refinement & selection','refinement'],['q3','Interaction & contact','resistance'],['q4','Zero-shot scope','scope']]}
  ]},
  {reviewer:'vfta',groups:[
@@ -19,6 +19,13 @@ const questions = [
   {label:'Questions',items:[['q1','Image–action mismatch','scope'],['q2','Gain reliability & success','refinement'],['q3','Fixed-image test','visual-feedback'],['q4','Overall collection cost','selection-cost']]}
  ]}
 ];
+const comparisonTopics = {
+ 'msnh-w1': [
+  ['online-ik','vs. EgoHumanoid: Algorithm'],
+  ['capture-setting','vs. HuMI/BifrostUMI: Hardware'],
+  ['general-controller','vs. HuMI/BifrostUMI: Algorithm']
+ ]
+};
 const questionTargets = new Map();
 let activeQuestionPopup = null;
 let popupCloseTimer;
@@ -27,11 +34,12 @@ function renderQuestions(){
  $('reviewer-index').innerHTML=questions.map(r=>`<div class="reviewer-column"><h2>Reviewer ${r.reviewer}</h2>${r.groups.map(g=>`<div class="reviewer-group"><h3>${g.label}</h3>${g.items.map(q=>{
   const key=`${r.reviewer.toLowerCase()}-${q[0]}`;
   const matching=sections.filter(section=>[...section.querySelectorAll('.reviewer-note li')].some(note=>note.querySelector('strong').textContent===`Reviewer ${r.reviewer}:`&&note.querySelector('span').textContent.toLowerCase().split(',').map(s=>s.trim()).includes(q[0]))).map(section=>section.id);
-  const targets=[q[2],...matching.filter(id=>id!==q[2])];
+  const targets=comparisonTopics[key]?.map(([id])=>id)||[q[2],...matching.filter(id=>id!==q[2])];
+  const topicLabel=id=>comparisonTopics[key]?.find(topic=>topic[0]===id)?.[1]||$(id).querySelector('h2').textContent;
   questionTargets.set(key,targets);
   const label=`<span class="qid">${q[0].toUpperCase()}</span><span>${q[1]}</span>`;
   if(targets.length===1)return `<a class="question-link" href="#${targets[0]}" data-question="${key}">${label}</a>`;
-  return `<div class="question-item"><button type="button" class="question-link" data-question="${key}" aria-expanded="false" aria-controls="topics-${key}" aria-haspopup="dialog">${label}<span class="question-chevron" aria-hidden="true">›</span></button><div class="question-popover" id="topics-${key}" popover="manual" role="dialog" aria-labelledby="topics-title-${key}"><p id="topics-title-${key}">Reviewer ${r.reviewer} · ${q[0].toUpperCase()}</p><ul>${targets.map(id=>`<li><a href="#${id}" data-section="${id}" data-owner="${key}">${$(id).querySelector('h2').textContent}</a></li>`).join('')}</ul></div></div>`;
+  return `<div class="question-item"><button type="button" class="question-link" data-question="${key}" aria-expanded="false" aria-controls="topics-${key}" aria-haspopup="dialog">${label}<span class="question-chevron" aria-hidden="true">›</span></button><div class="question-popover" id="topics-${key}" popover="manual" role="dialog" aria-labelledby="topics-title-${key}"><p id="topics-title-${key}">Reviewer ${r.reviewer} · ${q[0].toUpperCase()}</p><ul>${targets.map(id=>`<li><a href="#${id}" data-section="${id}" data-owner="${key}">${topicLabel(id)}</a></li>`).join('')}</ul></div></div>`;
  }).join('')}</div>`).join('')}</div>`).join('');
 }
 function closeQuestionPopup(){
