@@ -56,3 +56,5 @@ button.question-link{width:100%;border:0;background:transparent;text-align:left;
 .comparison-outline .comparison-group{margin-bottom:20px}.comparison-outline h3{font-size:18px;margin:0 0 10px;color:var(--color-section-title)}.comparison-outline .comparison-group p{padding-left:16px}
 
 @media(min-width:851px){.question-link{white-space:nowrap}.question-link>span:nth-child(2){flex-shrink:0}}
+
+#study-scope .scope-subheading{color:var(--color-accent);font-size:18px;font-weight:700;margin:24px 0 8px}#study-scope .scope-subheading:first-child{margin-top:0}
