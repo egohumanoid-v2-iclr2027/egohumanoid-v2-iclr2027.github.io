@@ -52,3 +52,5 @@ button.question-link{width:100%;border:0;background:transparent;text-align:left;
 #general-controller>.related-evidence,#general-controller>.comparison-sources{text-align:left;max-width:none;font-size:14px;margin:12px 0 0}
 
 #online-ik .visual-transfer{margin:28px 0 0}
+
+.comparison-outline .comparison-group{margin-bottom:20px}.comparison-outline h3{font-size:18px;margin:0 0 10px;color:var(--color-section-title)}.comparison-outline .comparison-group p{padding-left:16px}
