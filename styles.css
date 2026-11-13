@@ -50,3 +50,5 @@ button.question-link{width:100%;border:0;background:transparent;text-align:left;
 .experiment-intro .setup-points{margin:0 0 12px;padding-left:24px}.setup-points li{padding-left:4px;margin-bottom:10px}
 
 #general-controller>.related-evidence,#general-controller>.comparison-sources{text-align:left;max-width:none;font-size:14px;margin:12px 0 0}
+
+#online-ik .visual-transfer{margin:28px 0 0}
