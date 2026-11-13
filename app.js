@@ -10,7 +10,7 @@ const questions = [
  ]},
  {reviewer:'vfta',groups:[
   {label:'Critical weaknesses',items:[['w1','Contact & task completion','completion'],['w2','Data efficiency & cost','data-efficiency']]},
-  {label:'Questions',items:[['q1','Stage-wise results','completion'],['q2','Contact-stage failures','completion'],['q3','Rules & data scaling','implementation']]},
+  {label:'Questions',items:[['q1','Stage-wise results','completion'],['q2','Contact-stage failures','completion'],['q3','Rules & data scaling','task-preprocessing']]},
   {label:'Suggestion',items:[['s1','Contact-force proxies','resistance']]}
  ]},
  {reviewer:'fQQ5',groups:[
@@ -20,6 +20,11 @@ const questions = [
  ]}
 ];
 const comparisonTopics = {
+ 'msnh-w4': [
+  ['implementation','Optimization details'],
+  ['task-preprocessing','Task-specific data preparation'],
+  ['selection-cost','Candidate selection & processing cost']
+ ],
  'msnh-w3': [
   ['completion','Full-task success'],
   ['evaluation-protocol','Error bars & training seed'],
