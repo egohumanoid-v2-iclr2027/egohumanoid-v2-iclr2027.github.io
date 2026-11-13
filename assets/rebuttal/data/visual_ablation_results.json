@@ -28,7 +28,7 @@
     "S2_percent",
     "S3_percent",
     "score_percent",
-    "sd_percentage_points"
+    "batch_sd_percentage_points"
   ],
   "results": [
     [
@@ -55,8 +55,8 @@
       ],
       [
         60,
-        55,
-        45,
+        50,
+        50,
         53.33,
         3.33
       ]
