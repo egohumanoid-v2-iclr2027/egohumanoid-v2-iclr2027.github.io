@@ -21,12 +21,14 @@ const questions = [
 ];
 const comparisonTopics = {
  'fqq5-w1': [
-  ['visual-alignment','Interaction & viewpoint alignment'],
-  ['camera-height-matching','Camera-height matching']
+  ['robot-arm-rendering','Interaction-location alignment'],
+  ['camera-height-matching','Viewpoint alignment: hardware'],
+  ['viewpoint-variation','Viewpoint variation & generalization']
  ],
  'fqq5-q1': [
-  ['visual-alignment','Interaction & viewpoint alignment'],
-  ['camera-height-matching','Camera-height matching']
+  ['robot-arm-rendering','Interaction-location alignment'],
+  ['camera-height-matching','Viewpoint alignment: hardware'],
+  ['viewpoint-variation','Viewpoint variation & generalization']
  ],
  'vfta-w2': [
   ['data-efficiency','Human vs. robot performance'],
