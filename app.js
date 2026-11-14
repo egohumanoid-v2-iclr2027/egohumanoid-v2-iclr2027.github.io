@@ -22,13 +22,13 @@ const questions = [
 const comparisonTopics = {
  'fqq5-w1': [
   ['robot-arm-rendering','Interaction-location alignment'],
-  ['camera-height-matching','Viewpoint alignment: hardware'],
-  ['viewpoint-variation','Viewpoint variation & generalization']
+  ['camera-height-matching','Camera-height alignment'],
+  ['viewpoint-variation','Why viewpoint variation need not hurt learning']
  ],
  'fqq5-q1': [
   ['robot-arm-rendering','Interaction-location alignment'],
-  ['camera-height-matching','Viewpoint alignment: hardware'],
-  ['viewpoint-variation','Viewpoint variation & generalization']
+  ['camera-height-matching','Camera-height alignment'],
+  ['viewpoint-variation','Why viewpoint variation need not hurt learning']
  ],
  'vfta-w2': [
   ['data-efficiency','Human vs. robot performance'],
