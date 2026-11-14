@@ -10,7 +10,7 @@ const questions = [
  ]},
  {reviewer:'vfta',groups:[
   {label:'Critical weaknesses',items:[['w1','Contact robustness & evaluation','resistance'],['w2','Sample efficiency & scalability','data-efficiency']]},
-  {label:'Questions',items:[['q1','Stage-wise results','completion'],['q2','Contact-stage failures','completion'],['q3','Rules & data scaling','task-preprocessing']]},
+  {label:'Questions',items:[['q1','Success rates & standard errors','completion'],['q2','Contact-stage failures','completion'],['q3','Rules & data scaling','task-preprocessing']]},
   {label:'Suggestion',items:[['s1','Contact-force proxies','resistance']]}
  ]},
  {reviewer:'fQQ5',groups:[
@@ -30,8 +30,8 @@ const comparisonTopics = {
   ['evaluation-protocol','Error bars']
  ],
  'vfta-q1': [
-  ['completion','Subtask & full-task success'],
-  ['evaluation-protocol','Error bars & training seed']
+  ['completion','S1/S2/S3 completion rates'],
+  ['evaluation-protocol','Standard errors (SE)']
  ],
  'vfta-q2': [
   ['completion','Stage-wise outcomes & failure analysis'],
