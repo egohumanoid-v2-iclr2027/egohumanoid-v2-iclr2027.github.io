@@ -20,6 +20,10 @@ const questions = [
  ]}
 ];
 const comparisonTopics = {
+ 'vfta-w2': [
+  ['data-efficiency','Human vs. Robot Demonstrations'],
+  ['selection-cost','Candidate Selection & Processing Cost']
+ ],
  'vfta-w1': [
   ['resistance','Why it works without simulated object forces'],
   ['completion','Subtask & full-task success'],
