@@ -97,7 +97,7 @@ function openQuestion(hash,sectionId){
  if(target.tagName==='DETAILS')target.open=true;
  target.scrollIntoView({block:'start'});return true;
 }
-const sectionAliases = {'online-ik':'whole-body-transfer','scope':'visual-alignment','refinement':'d-refinement','hardware':'real-world-demos'};
+const sectionAliases = {"online-ik":"whole-body-transfer","scope":"visual-alignment","refinement":"d-refinement","hardware":"real-world-demos","a":"whole-body-transfer","b":"d-refinement","c":"selection-cost","d":"completion","e":"visual-alignment","f":"resistance","g":"implementation","h":"capture-setting","i":"general-controller","j":"study-scope","k":"evaluation-protocol","l":"task-preprocessing","m":"object-relative-placement","n":"contact-stability","o":"data-efficiency","p":"visual-feedback"};
 function openHash(hash){
  if(!hash||openQuestion(hash))return;
  $(sectionAliases[hash]||hash)?.scrollIntoView({block:'start'});
