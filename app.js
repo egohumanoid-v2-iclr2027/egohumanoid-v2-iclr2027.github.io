@@ -34,8 +34,7 @@ const comparisonTopics = {
   ['evaluation-protocol','Standard errors (SE)']
  ],
  'vfta-q2': [
-  ['completion','Stage-wise outcomes & failure analysis'],
-  ['contact-stability','Contact-phase stability'],
+  ['failure-analysis','Interaction failure analysis'],
   ['resistance','Tracking under external forces']
  ],
  'vfta-q3': [
