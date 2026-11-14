@@ -15,8 +15,8 @@ const questions = [
  ]},
  {reviewer:'fQQ5',groups:[
   {label:'Critical weaknesses',items:[['w1','Image–action consistency','visual-alignment'],['w2','Full-task success & SEs','completion']]},
-  {label:'Minor concerns',items:[['m1','Visual feedback','visual-feedback'],['m2','Overall processing cost','selection-cost']]},
-  {label:'Questions',items:[['q1','Image–action mismatch','visual-alignment'],['q2','Gain reliability & success','completion'],['q3','Fixed-image test','visual-feedback'],['q4','Overall collection cost','selection-cost']]}
+  {label:'Minor concerns',items:[['m1','Visual feedback','visual-feedback'],['m2','Processing & collection costs','selection-cost']]},
+  {label:'Questions',items:[['q1','Image–action mismatch','visual-alignment'],['q2','Gain reliability & success','completion'],['q3','Fixed-image test','visual-feedback'],['q4','Overall cost accounting','selection-cost']]}
  ]}
 ];
 const comparisonTopics = {
@@ -59,9 +59,13 @@ const comparisonTopics = {
   ['completion','Full-task success'],
   ['evaluation-protocol','Error bars']
  ],
+ 'fqq5-m2': [
+  ['complete-processing-cost','Complete processing cost'],
+  ['collection-cost','Collection cost advantage']
+ ],
  'fqq5-q4': [
-  ['selection-cost','Candidate selection & processing cost'],
-  ['data-efficiency','Human vs. robot collection effort']
+  ['complete-processing-cost','Complete processing cost'],
+  ['collection-cost','Collection cost advantage']
  ],
  'msnh-q3': [
   ['object-relative-placement','Local coordinates: why sufficient?'],
