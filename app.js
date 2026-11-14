@@ -14,7 +14,7 @@ const questions = [
   {label:'Suggestion',items:[['s1','Contact & impedance proxies','resistance']]}
  ]},
  {reviewer:'fQQ5',groups:[
-  {label:'Critical weaknesses',items:[['w1','Interaction & viewpoint','visual-alignment'],['w2','Hardware benefit','d-refinement']]},
+  {label:'Critical weaknesses',items:[['w1','Image–action consistency','visual-alignment'],['w2','Hardware benefit','d-refinement']]},
   {label:'Minor concerns',items:[['m1','Visual feedback','visual-feedback'],['m2','Overall processing cost','selection-cost']]},
   {label:'Questions',items:[['q1','Image–action mismatch','visual-alignment'],['q2','Gain reliability & success','d-refinement'],['q3','Fixed-image test','visual-feedback'],['q4','Overall collection cost','selection-cost']]}
  ]}
