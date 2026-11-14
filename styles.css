@@ -64,3 +64,5 @@ button.question-link{width:100%;border:0;background:transparent;text-align:left;
 .failure-summary{margin-top:28px}.failure-summary .scope-subheading{color:var(--color-accent);font-size:18px;font-weight:700;margin:24px 0 8px}.failure-summary p{font-size:15px;line-height:1.8;color:var(--color-secondary)}
 
 #completion .completion-subheading{color:var(--color-accent);font-size:18px;font-weight:700}
+
+#visual-alignment .scope-subheading,#capture-setting .scope-subheading{color:var(--color-accent);font-size:18px;font-weight:700;margin:24px 0 8px}#visual-alignment .scope-subheading:first-child,#capture-setting .scope-subheading:first-child{margin-top:0}
