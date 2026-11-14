@@ -21,9 +21,9 @@ const questions = [
 ];
 const comparisonTopics = {
  'vfta-w1': [
-  ['resistance','Tracking without simulated object forces'],
+  ['resistance','Why it works without simulated object forces'],
   ['completion','Subtask & full-task success'],
-  ['evaluation-protocol','Error bars & training seed']
+  ['evaluation-protocol','Error bars']
  ],
  'vfta-q1': [
   ['completion','Subtask & full-task success'],
