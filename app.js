@@ -10,7 +10,7 @@ const questions = [
  ]},
  {reviewer:'vfta',groups:[
   {label:'Critical weaknesses',items:[['w1','Contact robustness & evaluation','resistance'],['w2','Sample efficiency & scalability','data-efficiency']]},
-  {label:'Questions',items:[['q1','Success rates & standard errors','completion'],['q2','Interaction failures & resistance','completion'],['q3','Rules & data scaling','task-preprocessing']]},
+  {label:'Questions',items:[['q1','Success rates & standard errors','completion'],['q2','Interaction failures & resistance','completion'],['q3','Data preparation & scaling','task-preprocessing']]},
   {label:'Suggestion',items:[['s1','Contact-force proxies','resistance']]}
  ]},
  {reviewer:'fQQ5',groups:[
@@ -38,8 +38,8 @@ const comparisonTopics = {
   ['resistance','Why it works without simulated object forces']
  ],
  'vfta-q3': [
-  ['task-preprocessing','Task-specific data preparation'],
-  ['data-efficiency','Performance bottlenecks & data scaling']
+  ['task-preprocessing','Task-specific preprocessing'],
+  ['data-efficiency','Bottlenecks & data scaling']
  ],
  'fqq5-q2': [
   ['d-refinement','D & response model benefit'],
