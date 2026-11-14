@@ -22,7 +22,7 @@ const questions = [
 const comparisonTopics = {
  'vfta-w2': [
   ['data-efficiency','Human vs. robot performance'],
-  ['selection-cost','Complete action alignment cost']
+  ['selection-cost','Full-pipeline processing cost']
  ],
  'vfta-w1': [
   ['resistance','Why it works without simulated object forces'],
