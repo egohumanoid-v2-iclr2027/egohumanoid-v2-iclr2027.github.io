@@ -4,7 +4,7 @@
     "S2_percent",
     "S3_percent",
     "score_percent",
-    "batch_sd_percentage_points"
+    "score_se_percentage_points"
   ],
   "human": {
     "tasks": [
