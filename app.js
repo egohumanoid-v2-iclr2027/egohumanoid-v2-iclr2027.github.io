@@ -53,11 +53,11 @@ const comparisonTopics = {
  ],
  'fqq5-w2': [
   ['completion','Full-task success'],
-  ['standard-errors','Standard errors (SE)']
+  ['evaluation-protocol','Error bars']
  ],
  'fqq5-q2': [
   ['completion','Full-task success'],
-  ['standard-errors','Standard errors (SE)']
+  ['evaluation-protocol','Error bars']
  ],
  'fqq5-q4': [
   ['selection-cost','Candidate selection & processing cost'],
