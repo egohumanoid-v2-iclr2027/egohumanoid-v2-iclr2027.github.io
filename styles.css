@@ -60,3 +60,5 @@ button.question-link{width:100%;border:0;background:transparent;text-align:left;
 #study-scope .scope-subheading,#object-relative-placement .scope-subheading,#contact-stability .scope-subheading,#resistance .scope-subheading,#data-efficiency .scope-subheading,#selection-cost .scope-subheading{color:var(--color-accent);font-size:18px;font-weight:700;margin:24px 0 8px}#study-scope .scope-subheading:first-child,#object-relative-placement .scope-subheading:first-child,#contact-stability .scope-subheading:first-child,#resistance .scope-subheading:first-child,#data-efficiency .scope-subheading:first-child,#selection-cost .scope-subheading:first-child{margin-top:0}
 
 #data-efficiency .experiment-intro .collection-advantage{color:#c62828;font-weight:700}
+
+.failure-summary{margin-top:28px}.failure-summary .scope-subheading{color:var(--color-accent);font-size:18px;font-weight:700;margin:24px 0 8px}.failure-summary p{font-size:15px;line-height:1.8;color:var(--color-secondary)}
