@@ -10,7 +10,7 @@ const questions = [
  ]},
  {reviewer:'vfta',groups:[
   {label:'Critical weaknesses',items:[['w1','Contact robustness & evaluation','resistance'],['w2','Sample efficiency & scalability','data-efficiency']]},
-  {label:'Questions',items:[['q1','Success rates & standard errors','completion'],['q2','Contact-stage failures','completion'],['q3','Rules & data scaling','task-preprocessing']]},
+  {label:'Questions',items:[['q1','Success rates & standard errors','completion'],['q2','Interaction failures & resistance','completion'],['q3','Rules & data scaling','task-preprocessing']]},
   {label:'Suggestion',items:[['s1','Contact-force proxies','resistance']]}
  ]},
  {reviewer:'fQQ5',groups:[
@@ -34,8 +34,8 @@ const comparisonTopics = {
   ['evaluation-protocol','Standard errors (SE)']
  ],
  'vfta-q2': [
-  ['failure-analysis','Interaction failure analysis'],
-  ['resistance','Tracking under external forces']
+  ['failure-analysis','Failure causes during interaction'],
+  ['resistance','Why it works without simulated object forces']
  ],
  'vfta-q3': [
   ['task-preprocessing','Task-specific data preparation'],
