@@ -16,7 +16,7 @@ const questions = [
  {reviewer:'fQQ5',groups:[
   {label:'Critical weaknesses',items:[['w1','Image–action consistency','visual-alignment'],['w2','Full-task success & SEs','completion']]},
   {label:'Minor concerns',items:[['m1','Visual feedback','visual-feedback'],['m2','Processing & collection costs','selection-cost']]},
-  {label:'Questions',items:[['q1','Image–action consistency','visual-alignment'],['q2','Gain reliability & success','completion'],['q3','Fixed-image test','visual-feedback'],['q4','Overall cost accounting','selection-cost']]}
+  {label:'Questions',items:[['q1','Image–action consistency','visual-alignment'],['q2','Full-task success & SEs','completion'],['q3','Fixed-image test','visual-feedback'],['q4','Overall cost accounting','selection-cost']]}
  ]}
 ];
 const comparisonTopics = {
