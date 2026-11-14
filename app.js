@@ -9,7 +9,7 @@ const questions = [
   {label:'Questions',items:[['q1','Success & failure analysis','completion'],['q2','D contribution details','d-refinement'],['q3','Interaction accuracy & stability','object-relative-placement'],['q4','Zero-shot scope','study-scope']]}
  ]},
  {reviewer:'vfta',groups:[
-  {label:'Critical weaknesses',items:[['w1','Contact, success & uncertainty','resistance'],['w2','Data efficiency & cost','data-efficiency']]},
+  {label:'Critical weaknesses',items:[['w1','Contact robustness & evaluation','resistance'],['w2','Data efficiency & cost','data-efficiency']]},
   {label:'Questions',items:[['q1','Stage-wise results','completion'],['q2','Contact-stage failures','completion'],['q3','Rules & data scaling','task-preprocessing']]},
   {label:'Suggestion',items:[['s1','Contact-force proxies','resistance']]}
  ]},
