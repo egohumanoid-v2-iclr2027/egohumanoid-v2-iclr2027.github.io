@@ -39,8 +39,7 @@ const comparisonTopics = {
  ],
  'vfta-q3': [
   ['task-preprocessing','Task-specific data preparation'],
-  ['data-efficiency','Human vs. robot demonstrations'],
-  ['selection-cost','Candidate selection & processing cost']
+  ['data-efficiency','Performance bottlenecks & data scaling']
  ],
  'fqq5-q2': [
   ['d-refinement','D & response model benefit'],
