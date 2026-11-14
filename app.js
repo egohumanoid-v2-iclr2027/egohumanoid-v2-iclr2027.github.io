@@ -11,7 +11,7 @@ const questions = [
  {reviewer:'vfta',groups:[
   {label:'Critical weaknesses',items:[['w1','Contact robustness & evaluation','resistance'],['w2','Sample efficiency & scalability','data-efficiency']]},
   {label:'Questions',items:[['q1','Success rates & standard errors','completion'],['q2','Interaction failures & resistance','completion'],['q3','Data preparation & scaling','task-preprocessing']]},
-  {label:'Suggestion',items:[['s1','Contact-force proxies','resistance']]}
+  {label:'Suggestion',items:[['s1','Contact & impedance proxies','resistance']]}
  ]},
  {reviewer:'fQQ5',groups:[
   {label:'Critical weaknesses',items:[['w1','Image–action consistency','visual-alignment'],['w2','Hardware benefit','d-refinement']]},
