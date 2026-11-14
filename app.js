@@ -20,6 +20,25 @@ const questions = [
  ]}
 ];
 const comparisonTopics = {
+ 'vfta-q2': [
+  ['completion','Stage-wise outcomes & failure analysis'],
+  ['contact-stability','Contact-phase stability'],
+  ['resistance','Tracking under external forces']
+ ],
+ 'vfta-q3': [
+  ['task-preprocessing','Task-specific data preparation'],
+  ['data-efficiency','Human vs. robot demonstrations'],
+  ['selection-cost','Candidate selection & processing cost']
+ ],
+ 'fqq5-q2': [
+  ['d-refinement','D & response model benefit'],
+  ['completion','Full-task success'],
+  ['evaluation-protocol','Error bars & training seed']
+ ],
+ 'fqq5-q4': [
+  ['selection-cost','Candidate selection & processing cost'],
+  ['data-efficiency','Human vs. robot collection effort']
+ ],
  'msnh-q3': [
   ['object-relative-placement','Local coordinates: why sufficient?'],
   ['contact-stability','Contact-phase stability'],
