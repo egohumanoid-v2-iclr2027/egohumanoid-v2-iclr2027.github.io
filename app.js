@@ -23,7 +23,7 @@ const comparisonTopics = {
  'msnh-q3': [
   ['object-relative-placement','Local coordinates: why sufficient?'],
   ['contact-stability','Contact-phase stability'],
-  ['resistance','Object contacts & external forces']
+  ['resistance','Why omit object forces?']
  ],
  'msnh-w4': [
   ['implementation','Optimization details'],
